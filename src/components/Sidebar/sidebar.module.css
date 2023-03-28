@@ -1,0 +1,36 @@
+.wrap {
+	background-color: #0091ff;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 64px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.user {
+	height: 100px;
+	justify-content: center;
+	display: flex;
+	padding-top: 32px;
+	box-sizing: border-box;
+}
+.tab-top-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	height: 64px;
+}
+.tab-top-item i {
+	color: #fff;
+	font-size: 24px;
+}
+.tab-top-item:hover {
+	background-color: rgb(0 0 0 / 10%);
+}
+
+.active {
+	background-color: #006edc !important;
+}
