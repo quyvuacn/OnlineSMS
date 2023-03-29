@@ -34,13 +34,6 @@ function Search({ children }) {
 				</label>
 				{!showSearch && (
 					<div className={cx("adds")}>
-						{/* <Button
-							tabIndex={-1}
-							color="#cfd2d5"
-							auto
-							icon={<i class="fa-light fa-user-plus"></i>}
-							light
-						></Button> */}
 						<AddFriend />
 						<AddGroup />
 					</div>

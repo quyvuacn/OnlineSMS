@@ -1,0 +1,28 @@
+.wrap {
+	padding: 0 16px;
+	height: var(--base-height);
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+}
+
+.wrap:hover {
+	background-color: #e5efff;
+}
+.logo img {
+	width: 46px;
+	height: 46px;
+	display: block;
+	border-radius: 50%;
+}
+
+.title {
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.message {
+	font-size: 14px;
+	color: #7589a3;
+}

@@ -1,8 +1,16 @@
 import Search from "@/components/Search"
+import Chat from "@/components/Chat/Chat"
+
 function Home() {
 	return (
 		<div>
-			<Search>Quý</Search>
+			<Search>
+				<Chat />
+				<Chat />
+				<Chat />
+				<Chat />
+				<Chat />
+			</Search>
 		</div>
 	)
 }
