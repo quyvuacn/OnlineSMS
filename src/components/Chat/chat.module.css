@@ -1,3 +1,4 @@
+/* Chat */
 .wrap {
 	padding: 0 16px;
 	height: var(--base-height);
@@ -5,10 +6,12 @@
 	align-items: center;
 	gap: 12px;
 	cursor: pointer;
+	color: #000;
+	user-select: none;
 }
 
 .wrap:hover {
-	background-color: #e5efff;
+	background-color: #f3f5f6;
 }
 .logo img {
 	width: 46px;
@@ -16,13 +19,74 @@
 	display: block;
 	border-radius: 50%;
 }
-
+.content{
+	flex: 1;
+}
 .title {
 	font-size: 14px;
 	font-weight: 500;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .message {
-	font-size: 14px;
+	font-size: 12px;
 	color: #7589a3;
+	max-width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+.time{
+	font-size: 12px;
+}
+
+.active{
+	background-color: #e5efff !important;
+}
+/* BoxChat */
+.boxchat-header{
+	padding: 0 16px;
+	height: var(--base-height);
+	display: flex;
+	align-items: center;
+}
+
+.boxchat-logo img{
+	width: 46px;
+	height: 46px;
+	display: block;
+	border-radius: 50%;
+}
+.boxchat-title{
+	margin-left: 12px;
+}
+.boxchat-title .title{
+	font-size: 16px;
+	user-select: none;
+}
+.boxchat-title .subtitle{
+	font-size: 12px;
+	user-select: none;
+
+}
+
+/* BoxChat : boxchat-main */
+.boxchat-main{
+	position: relative;
+	border-top: 1px solid #ccc;
+	height: calc( 100vh - var(--base-height) - 16px);
+}
+.boxchat-show-message{
+	padding: 0 16px;
+}
+.boxchat-form{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.textarea{
+	margin: 0 16px !important;
 }

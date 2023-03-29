@@ -15,7 +15,7 @@ function AddFriend() {
 				tabIndex={-1}
 				color="#cfd2d5"
 				auto
-				icon={<i class="fa-light fa-user-plus"></i>}
+				icon={<i className="fa-light fa-user-plus"></i>}
 				light
 				onPress={handler}
 			></Button>

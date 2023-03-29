@@ -1,7 +1,11 @@
 * {
 	box-sizing: border-box;
+	-webkit-user-drag: none;
 }
 #main {
 	height: 100vh;
 	padding-left: 64px;
+}
+.content{
+	display: flex;
 }

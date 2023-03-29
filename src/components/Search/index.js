@@ -20,7 +20,7 @@ function Search({ children }) {
 					for="search"
 				>
 					<span>
-						<i class="fa-sharp fa-light fa-magnifying-glass"></i>
+						<i className="fa-sharp fa-light fa-magnifying-glass"></i>
 					</span>
 					<input
 						className={cx("input")}
