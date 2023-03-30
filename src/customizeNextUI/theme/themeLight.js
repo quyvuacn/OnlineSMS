@@ -6,7 +6,9 @@ export default createTheme({
 		colors: {
 			myColor: "#ff4ecd",
 		},
-		space: {},
+		space: {
+			1: "1px",
+		},
 		fonts: {},
 		radii: {
 			base: "8px",
@@ -18,6 +20,9 @@ export default createTheme({
 			leavingScreen: 2000,
 			in: 2000,
 			out: 2000,
+		},
+		borderWeights: {
+			normal: "1px",
 		},
 	},
 })
