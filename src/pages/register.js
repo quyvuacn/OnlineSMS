@@ -9,8 +9,12 @@ function Login() {
 	return (
 		<div className={cx("wrap")}>
 			<div className={cx("content")}>
-				<Text h4 css={{ textAlign: "center" }}>
-					Đăng kí tài khoản Zalo
+				<div className={cx("logo")}>
+					<img src="/images/zlogo.png" alt="" />
+				</div>
+				<Spacer y={1} />
+				<Text h4 css={{ textAlign: "center", fontWeight: 400 }}>
+					Đăng kí tài khoản Zalo để kết nối với ứng dụng Zalo Web
 				</Text>
 				<Card>
 					<Card.Body>
@@ -40,6 +44,25 @@ function Login() {
 							underlined
 							contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 						/>
+						<Spacer y={1} />
+						<Input
+							underlined
+							contentLeft={
+								<i className="fa-sharp fa-solid fa-shield-check"></i>
+							}
+							placeholder="Send code"
+							initialValue=""
+						/>
+						<Spacer y={0.5} />
+
+						<Text span size="$xs">
+							Gửi lại code sau : 20s
+						</Text>
+						<Link href="javascript:void(0)">
+							<Text span size="$xs" color="primary">
+								Send code
+							</Text>
+						</Link>
 						<Spacer y={1} />
 						<Button>Register</Button>
 						<Spacer y={0.5} />
