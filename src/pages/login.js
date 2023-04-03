@@ -2,6 +2,8 @@ import classNames from "classnames/bind"
 import styles from "@/styles/login.module.css"
 import { Card, Text, Input, Button, Spacer } from "@nextui-org/react"
 import Link from "@/customizeNextUI/nextui-org/Link"
+import SendButton from "@/customizeNextUI/nextui-org/SendButton"
+import ValidFeedback from "./../customizeNextUI/nextui-org/ValidFeedback"
 const cx = classNames.bind(styles)
 
 function Login() {
@@ -24,7 +26,7 @@ function Login() {
 							placeholder="Phone Number"
 							initialValue=""
 						/>
-						<Spacer y={1} />
+						<ValidFeedback message="Số điện thoại không hợp lệ" />
 
 						<Input.Password
 							underlined
@@ -32,7 +34,10 @@ function Login() {
 							placeholder="Password"
 							initialValue=""
 						/>
-						<Spacer y={1} />
+						<ValidFeedback
+							message="Số điện thoại không hợp lệ"
+							hidden={false}
+						/>
 
 						<Input
 							underlined
@@ -41,8 +46,14 @@ function Login() {
 							}
 							placeholder="Send code"
 							initialValue=""
+							contentRight={
+								<SendButton>
+									<i className="fa-solid fa-paper-plane-top"></i>
+								</SendButton>
+							}
+							contentRightStyling={false}
 						/>
-						<Spacer y={0.5} />
+						<ValidFeedback message="Số điện thoại không hợp lệ" />
 
 						{/* <Text span size="$xs">
 							Gửi lại code sau : 20s
@@ -57,12 +68,20 @@ function Login() {
 
 						<Button>Login</Button>
 						<Spacer y={0.5} />
-						<Link
-							href={"/register"}
-							css={{ margin: "0 auto", color: "gray", fontSize: "14px" }}
-						>
-							Register
-						</Link>
+						<div style={{ display: "flex" }}>
+							<Link
+								href={"/register"}
+								css={{ margin: "0 auto", color: "gray", fontSize: "14px" }}
+							>
+								Register
+							</Link>
+							<Link
+								href={"/register"}
+								css={{ margin: "0 auto", color: "gray", fontSize: "14px" }}
+							>
+								Forgot password ?
+							</Link>
+						</div>
 					</Card.Body>
 				</Card>
 			</div>

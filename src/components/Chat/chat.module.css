@@ -19,7 +19,7 @@
 	display: block;
 	border-radius: 50%;
 }
-.content{
+.content {
 	flex: 1;
 }
 .title {
@@ -39,60 +39,59 @@
 	overflow: hidden;
 	word-wrap: break-word;
 }
-.time{
+.time {
 	font-size: 12px;
 }
 
-.active{
+.active {
 	background-color: #e5efff !important;
 }
 /* BoxChat */
-.boxchat-header{
+.boxchat-header {
 	padding: 0 16px;
 	height: var(--base-height);
 	display: flex;
 	align-items: center;
 }
 
-.boxchat-logo img{
+.boxchat-logo img {
 	width: 46px;
 	height: 46px;
 	display: block;
 	border-radius: 50%;
 }
-.boxchat-title{
+.boxchat-title {
 	margin-left: 12px;
 }
-.boxchat-title .title{
+.boxchat-title .title {
 	font-size: 16px;
 	user-select: none;
 }
-.boxchat-title .subtitle{
+.boxchat-title .subtitle {
 	font-size: 14px;
 	user-select: none;
-
 }
 
 /* BoxChat : boxchat-main */
-.boxchat-main{
+.boxchat-main {
 	position: relative;
 	border-top: 1px solid #ccc;
-	height: calc( 100vh - var(--base-height));
+	height: calc(100vh - var(--base-height));
 }
-.boxchat-show-message{
+.boxchat-show-message {
 	padding: 0 16px;
 }
-.boxchat-form{
+.boxchat-form {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 }
-.textarea-wrap{
+.textarea-wrap {
 	display: flex;
 	align-items: center;
 	padding: 8px 0;
 }
-.textarea{
+.textarea {
 	margin: 0;
 	overflow: hidden;
 	height: auto;
@@ -101,13 +100,16 @@
 	padding: 4px 12px;
 	line-height: 20px;
 	border: transparent;
-	max-height: calc( 28*12px );
+	max-height: calc(28 * 12px);
 }
 
-.send-more-top{
+.send-more-top {
 	border-bottom: 1px solid #4e80dc;
 }
-.send-more-right{
+.send-more-right {
 	display: flex;
 	align-items: end;
+}
+.send-more-right button i {
+	font-size: 20px;
 }

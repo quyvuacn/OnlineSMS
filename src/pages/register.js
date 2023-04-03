@@ -1,8 +1,9 @@
 import classNames from "classnames/bind"
 import styles from "@/styles/login.module.css"
 import { Card, Text, Input, Button, Spacer } from "@nextui-org/react"
-import Register from "./register"
 import Link from "@/customizeNextUI/nextui-org/Link"
+import SendButton from "@/customizeNextUI/nextui-org/SendButton"
+
 const cx = classNames.bind(styles)
 
 function Login() {
@@ -50,8 +51,14 @@ function Login() {
 							contentLeft={
 								<i className="fa-sharp fa-solid fa-shield-check"></i>
 							}
-							placeholder="Send code"
+							placeholder="Code hết hạn sau 5p"
 							initialValue=""
+							contentRight={
+								<SendButton>
+									<i className="fa-solid fa-paper-plane-top"></i>
+								</SendButton>
+							}
+							contentRightStyling={false}
 						/>
 						<Spacer y={0.5} />
 
