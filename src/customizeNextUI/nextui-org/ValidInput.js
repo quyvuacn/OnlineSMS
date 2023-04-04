@@ -1,6 +1,6 @@
 import { Text } from "@nextui-org/react"
 
-function ValidFeedback({
+function ValidInput({
 	message = "Not be empty",
 	isValid = true,
 	hidden = true,
@@ -10,7 +10,7 @@ function ValidFeedback({
 			<Text
 				size="$xs"
 				css={{
-					color: isValid ? "$error" : "$success",
+					color: isValid ? "$success" : "$error",
 					visibility: hidden ? "hidden" : "visible",
 					marginLeft: "10px",
 				}}
@@ -21,4 +21,4 @@ function ValidFeedback({
 	)
 }
 
-export default ValidFeedback
+export default ValidInput

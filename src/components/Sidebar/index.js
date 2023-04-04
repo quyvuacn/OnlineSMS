@@ -51,6 +51,15 @@ function Sidebar() {
 					>
 						<i className="fa-light fa-book-user"></i>
 					</Link>
+					<Link
+						href={"/todos"}
+						className={cx(
+							{ active: router.pathname == "/todos" },
+							"tab-top-item",
+						)}
+					>
+						<i class="fa-light fa-square-check"></i>
+					</Link>
 				</div>
 			</div>
 			<div className={cx("tab-bottom")}>

@@ -3,11 +3,17 @@ import { NextRequest } from "next/server"
 
 export default async function middleware(req) {
 	const { pathname } = req.nextUrl
-	if (pathname.startsWith("/chat")) {
+
+	const token = req.cookies.get("token")?.value
+
+	if (!token) {
 		return NextResponse.redirect(new URL("/login", req.url))
+	}
+	if (pathname.startsWith("/register")) {
+		return NextResponse.redirect(new URL("/chat", req.url))
 	}
 }
 
 export const config = {
-	matcher: ["/chat", "/login", "/register"],
+	matcher: ["/chat"],
 }

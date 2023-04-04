@@ -1,7 +1,8 @@
 import axios from "axios"
+import { cookies } from "next/headers"
 
 const axiosConfig = axios.create({
-	baseURL: "http://localhost:3000/api/",
+	baseURL: "http://localhost:5141/api/",
 	timeout: 5000,
 	headers: {
 		"Content-Type": "application/json",
@@ -9,8 +10,11 @@ const axiosConfig = axios.create({
 })
 
 axiosConfig.interceptors.request.use((config) => {
-	// Handle token here ...
-	// Add headers : Authorization
+	const cookieStore = cookies()
+	const token = cookieStore.get("token")
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`
+	}
 	return config
 })
 
@@ -23,7 +27,6 @@ axiosConfig.interceptors.request.use(
 	},
 	(error) => {
 		const { response, message } = error
-		//Handle error
 		throw error
 	},
 )
