@@ -1,136 +1,73 @@
-import { Card, Text, Input, Button, Spacer } from "@nextui-org/react"
-import SendButton from "@/customizeNextUI/nextui-org/SendButton"
+import { Card, Button, Spacer } from "@nextui-org/react"
 import Link from "@/customizeNextUI/nextui-org/Link"
-import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
 import { useState, useEffect } from "react"
 
-import InputEmail from "./Input/InputEmail"
 import BaseInput from "./Input/BaseInput"
+import InputVerifyCode from "./Input/InputVerifyCode"
+import { useDispatch, useSelector } from "react-redux"
+import {
+	setUserName,
+	setPhoneNumber,
+	setEmail,
+	setPassword,
+	setConfirmPassword,
+	setVerifycode,
+} from "@/redux/actions/actionFormRegister"
 
 function FormRegister() {
-	const [userName, setUserName] = useState("")
-	const [phoneNumber, setPhoneNumber] = useState("")
-	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
-	const [confirmPassword, setConfirmPassword] = useState("")
-	const [verifycode, setVerifycode] = useState("")
-
-	const [validateUserName, setValidateUserName] = useState({
-		isValidated: false,
-		message: "Not be empty",
-		showMessage: false,
-	})
-
-	const [validateEmail, setValidateEmail] = useState({
-		isValidated: false,
-		message: "Not be empty",
-		showMessage: false,
-	})
-
-	const [validatePhoneNumber, setValidatePhoneNumber] = useState({
-		isValidated: false,
-		message: "Not be empty",
-		showMessage: false,
-	})
-
-	const handlerUserName = ({ value, validateValue }) => {
-		setEmail(value)
-		setValidateEmail(validateValue)
-	}
-
-	const handlerPhoneNumber = ({ phoneNumber, validatePhoneNumber }) => {
-		// setPhoneNumber(ev.target.value.replace(/\D/, ""))
-		setPhoneNumber(phoneNumber)
-		setValidatePhoneNumber(validatePhoneNumber)
-	}
-
-	const handlerEmail = ({ email, validateEmail }) => {
-		setEmail(email)
-		setValidateEmail(validateEmail)
-	}
-
-	const handlerPassword = (ev) => {
-		setPassword(ev.target.value)
-	}
-
-	const handlerConfirmPassword = (ev) => {
-		setConfirmPassword(ev.target.value)
-	}
-	const handlerVerifycode = (ev) => {
-		setVerifycode(ev.target.value.replace(/\D/, ""))
-	}
-
-	useEffect(() => {}, [
-		userName,
-		phoneNumber,
-		email,
-		password,
-		confirmPassword,
-		verifycode,
-	])
+	const dispatch = useDispatch()
+	const formRegister = useSelector((state) => state.formRegister)
 
 	return (
 		<Card>
 			<Card.Body>
 				<BaseInput
-					onChange={handlerUserName}
+					minLength={6}
+					maxLength={20}
 					name="Username"
 					regex={/^[a-zA-Z0-9]+$/}
+					allowSpaces={false}
+					contentLeft={<i className="fa-solid fa-user"></i>}
+					placeholder="Username"
 				/>
 
-				<Input
-					underlined
+				<BaseInput
+					name="PhoneNumber"
+					type="number"
+					length={10}
 					contentLeft={<i className="fa-solid fa-mobile"></i>}
 					placeholder="Phone Number"
-					onChange={handlerPhoneNumber}
-					value={phoneNumber}
 				/>
-				<ValidInput message="Số điện thoại không hợp lệ" hidden={false} />
 
-				<InputEmail onChange={handlerEmail} />
+				<BaseInput
+					type="email"
+					name="Email"
+					contentLeft={<i class="fa-solid fa-envelope"></i>}
+					placeholder="Email"
+				/>
 
-				<Input.Password
-					underlined
+				<BaseInput
+					type="password"
+					name="Password"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Password"
-					onChange={handlerConfirmPassword}
-					value={confirmPassword}
+					minLength={10}
 				/>
-				<ValidInput message="Số điện thoại không hợp lệ" hidden={false} />
 
-				<Input.Password
-					placeholder="Confirm Password"
-					underlined
+				<BaseInput
+					type="password"
+					name="Password"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
-					onChange={handlerPassword}
-					value={password}
+					placeholder="Confirm Password"
+					minLength={10}
 				/>
-				<ValidInput message="Số điện thoại không hợp lệ" hidden={false} />
-				<Input
-					underlined
-					contentLeft={<i className="fa-sharp fa-solid fa-shield-check"></i>}
-					placeholder="Code hết hạn sau 5p"
-					onChange={handlerVerifycode}
-					value={verifycode}
-					contentRight={
-						<SendButton>
-							<i
-								className="fa-solid fa-paper-plane-top"
-								style={{ color: "#0072F5" }}
-							></i>
-						</SendButton>
-					}
-					contentRightStyling={false}
-					minLength={6}
-					maxLength={6}
-				/>
-				<ValidInput message="Số điện thoại không hợp lệ" />
 
-				<Text span size="$xs">
-					Gửi lại code sau : 20s
-				</Text>
+				<InputVerifyCode lenght={6} />
+
 				<Spacer y={0.5} />
+
 				<Button>Register</Button>
+
 				<Spacer y={0.5} />
 				<Link
 					href={"/login"}

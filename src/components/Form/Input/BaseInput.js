@@ -1,61 +1,152 @@
 import { Input } from "@nextui-org/react"
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
-function BaseInput({ onChange, name, regex = null, type = "text" }) {
+function BaseInput({
+	name,
+	regex = null,
+	type = "text",
+	minLength = 0,
+	maxLength = 100,
+	length = null,
+	allowSpaces = true,
+	contentLeft,
+	contentRight,
+	placeholder = "",
+}) {
 	const [value, setValue] = useState("")
 
 	const [validateValue, setValidateValue] = useState({
-		isValidated: false,
-		message: "Not be empty",
-		showMessage: false,
+		info: "Required to fill in",
+		showInfo: false,
 	})
 
 	const handlerValue = (ev) => {
-		if (regex && !regex.test(ev.target.value)) {
-			setValidateValue({
-				isValidated: false,
-				message: "Không đúng định dạng",
-				showMessage: true,
+		let valueInput = ev.target.value
+
+		valueInput = allowSpaces ? valueInput : valueInput.replace(" ", "")
+		valueInput =
+			type === "number" ? valueInput.replace(/[^\d]/g, "") : valueInput
+		if (!valueInput) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: name ? `${name} not be empty` : "Not be empty",
+					showInfo: true,
+				}
 			})
-		} else if (!ev.target.value) {
-			setValidateValue({
-				isValidated: false,
-				message: name ? `${name} not be empty` : "Not be empty",
-				showMessage: true,
+		} else if (length && valueInput.length != length) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: `${name} có độ dài là ${length}.`,
+					showInfo: true,
+				}
+			})
+		} else if (valueInput.length < minLength) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: `Minimum length is ${minLength}.`,
+					showInfo: true,
+				}
+			})
+		} else if (valueInput.length > maxLength) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: `Maximum length is ${maxLength}.`,
+					showInfo: true,
+				}
+			})
+		} else if (regex && !regex.test(valueInput)) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: name ? `${name} không đúng định dạng` : "Không đúng định dạng",
+					showInfo: true,
+				}
+			})
+		} else if (
+			type === "email" &&
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valueInput)
+		) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: `Email không đúng định dạng`,
+					showInfo: true,
+				}
+			})
+		} else if (type === "password" && valueInput.search(" ") !== -1) {
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: false,
+					info: name ? `${name} không chứa dấu cách` : "Không chứa dấu cách",
+					showInfo: true,
+				}
 			})
 		} else {
-			setValidateValue({
-				isValidated: true,
-				message: "OK!",
-				showMessage: false,
+			setValidateValue((state) => {
+				return {
+					...state,
+					isValidate: true,
+					info: "OK!",
+					showInfo: false,
+				}
 			})
 		}
-
-		setValue(ev.target.value)
-
 		const infoInput = {
-			value: ev.target.value,
+			value: valueInput,
 			validateValue: validateValue,
 		}
 
-		onChange(infoInput)
+		setValue(valueInput)
 	}
 
 	return (
 		<>
-			<Input
-				underlined
-				contentLeft={<i className="fa-solid fa-user"></i>}
-				placeholder="Username"
-				onChange={handlerValue}
-				value={value}
-			/>
-			<ValidInput
-				message={validateValue.message}
-				hidden={!validateValue.showMessage}
-				isValid={validateValue.isValidated}
-			/>
+			{type == "password" && (
+				<>
+					<Input.Password
+						underlined
+						contentLeft={contentLeft}
+						placeholder={placeholder}
+						onChange={handlerValue}
+						value={value}
+						minLength={8}
+					/>
+					<ValidInput
+						message={validateValue.info}
+						hidden={!validateValue.showInfo}
+						isValid={validateValue.isValidate}
+					/>
+				</>
+			)}
+			{type !== "password" && (
+				<>
+					<Input
+						underlined
+						contentLeft={contentLeft}
+						contentRight={contentRight}
+						placeholder={placeholder}
+						onChange={handlerValue}
+						value={value}
+					/>
+					<ValidInput
+						message={validateValue.info}
+						hidden={!validateValue.showInfo}
+						isValid={validateValue.isValidate}
+					/>
+				</>
+			)}
 		</>
 	)
 }
