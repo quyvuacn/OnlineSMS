@@ -14,8 +14,9 @@ const initStateVerifycode = (stateName) => {
 	return {
 		...initStateItem(stateName),
 		isLoading: false,
+		isCountdown: false,
 		showBtnSend: false,
-		disable: true,
+		disable: false,
 	}
 }
 

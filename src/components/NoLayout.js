@@ -1,14 +1,13 @@
 import Sidebar from "./Sidebar"
 import Notification from "./Toast/Notification"
 
-function Layout({ children }) {
+function NoLayout({ children }) {
 	return (
 		<>
 			<Notification />
-			<Sidebar />
-			<main id="main">{children}</main>
+			{children}
 		</>
 	)
 }
 
-export default Layout
+export default NoLayout

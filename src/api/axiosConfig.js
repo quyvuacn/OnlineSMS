@@ -16,14 +16,12 @@ axiosConfig.interceptors.request.use(async (config) => {
 })
 axiosConfig.interceptors.response.use(
 	(response) => {
-		if (response && response.data) {
-			return response.data
-		}
-		return response
+		return response.data || response
 	},
 	(error) => {
-		// Handle errors
-		throw error
+		const { response } = error
+
+		throw response.data || error
 	},
 )
 export default axiosConfig

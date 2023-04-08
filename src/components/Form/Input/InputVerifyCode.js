@@ -9,6 +9,7 @@ import {
 	setConfirmPassword,
 } from "@/redux/actions/actionFormRegister"
 import { AuthAPI } from "@/api/authApi"
+import Countdown from "./Countdown"
 
 function InputVerifyCode({ lenght }) {
 	const formRegister = useSelector((state) => state.formRegister)
@@ -16,6 +17,8 @@ function InputVerifyCode({ lenght }) {
 	const password = formRegister["password"]
 	const confirmPassword = formRegister["confirmPassword"]
 	const phoneNumber = formRegister["phoneNumber"]
+
+	const [placeholder, setPlaceholder] = useState("Xác minh số điện thoại")
 
 	const dispatch = useDispatch()
 
@@ -37,7 +40,6 @@ function InputVerifyCode({ lenght }) {
 			)
 			return false
 		}
-
 		return true
 	})()
 
@@ -46,6 +48,8 @@ function InputVerifyCode({ lenght }) {
 	)
 
 	const iconLoading = <Loading size="xs" />
+
+	const countdown = <Countdown stateNumber={60} />
 
 	const handlerVerifycode = (ev) => {
 		const valueInput = ev.target.value.replace(/\D/, "")
@@ -57,19 +61,40 @@ function InputVerifyCode({ lenght }) {
 	}
 
 	const sendSMS = () => {
-		dispatch(
-			action({
-				isLoading: true,
-			}),
-		)
+		if (!stateInfo.isLoading && !stateInfo.disable) {
+			dispatch(
+				action({
+					isLoading: true,
+				}),
+			)
 
-		AuthAPI.verifyPhoneNumber(phoneNumber.value)
-			.then((response) => {
-				console.log(response)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+			AuthAPI.verifyPhoneNumber(phoneNumber.value)
+				.then((response) => {
+					setPlaceholder("Code hết hạn sau 5p")
+					dispatch(
+						action({
+							isLoading: false,
+							isCountdown: true,
+							disable: true,
+							isValidate: false,
+							showInfo: false,
+						}),
+					)
+				})
+				.catch((err) => {
+					const message = err.message || "Error!"
+					dispatch(
+						action({
+							isLoading: false,
+							isCountdown: false,
+							disable: false,
+							isValidate: false,
+							info: message,
+							showInfo: true,
+						}),
+					)
+				})
+		}
 	}
 
 	return (
@@ -77,13 +102,15 @@ function InputVerifyCode({ lenght }) {
 			<Input
 				underlined
 				contentLeft={<i className="fa-sharp fa-solid fa-shield-check"></i>}
-				placeholder={"Xác minh số điện thoại"}
+				placeholder={placeholder}
 				onChange={handlerVerifycode}
 				value={stateInfo.value}
 				contentRight={
-					!checkValidateAll && (
+					checkValidateAll && (
 						<SendButton onClick={sendSMS}>
-							{stateInfo.isLoading ? iconLoading : iconSend}
+							{!stateInfo.isLoading && !stateInfo.disable && iconSend}
+							{stateInfo.isLoading && !stateInfo.disable && iconLoading}
+							{stateInfo.disable && countdown}
 						</SendButton>
 					)
 				}
@@ -91,11 +118,11 @@ function InputVerifyCode({ lenght }) {
 				minLength={lenght}
 				contentRightStyling={false}
 			/>
-			<ValidInput message="Số điện thoại không hợp lệ" />
-
-			<Text span size="$xs">
-				Gửi lại code sau : 20s
-			</Text>
+			<ValidInput
+				message={stateInfo.info}
+				hidden={!stateInfo.showInfo}
+				isValid={stateInfo.isValidate}
+			/>
 		</>
 	)
 }

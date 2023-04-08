@@ -7,15 +7,18 @@ import "@/styles/variable.css"
 import theme from "@/customizeNextUI/theme"
 import store from "@/redux/store"
 
-export default function App({ Component, pageProps }) {
-	const getLayout =
-		Component.getLayout || ((content) => <Layout>{content}</Layout>)
 
-	return getLayout(
+export default function App({ Component, pageProps }) {
+	
+	const AppLayout = Component.layout || Layout
+
+	return (
 		<Provider store={store}>
 			<NextUIProvider theme={theme.themeLight}>
-				<Component {...pageProps} />
+				<AppLayout>
+					<Component {...pageProps} />
+				</AppLayout>
 			</NextUIProvider>
-		</Provider>,
+		</Provider>
 	)
 }

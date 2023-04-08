@@ -12,10 +12,69 @@ import {
 	setPassword,
 	setConfirmPassword,
 } from "@/redux/actions/actionFormRegister"
+import { AuthAPI } from "@/api/authApi"
+import { useRouter } from "next/router"
+import { notify } from "@/redux/reducers/notificationSlice"
+import typeNotification from "@/common/typeNotification"
 
 function FormRegister() {
-	// const formRegister = useSelector((state) => state.formRegister)
-	// console.log(formRegister)
+	const formRegister = useSelector((state) => state.formRegister)
+	const notification = useSelector((state) => state.notification)
+	const password = formRegister["password"]
+	const confirmPassword = formRegister["confirmPassword"]
+	const phoneNumber = formRegister["phoneNumber"]
+	const dispatch = useDispatch()
+	const router = useRouter()
+
+	console.log(notification)
+
+	const checkValidateAll = (() => {
+		for (let stateItemKey in formRegister) {
+			if (stateItemKey == "verifyCode" || stateItemKey == "validateAll")
+				continue
+			if (!formRegister[stateItemKey].isValidate) {
+				return false
+			}
+		}
+		if (password.value !== confirmPassword.value) {
+			return false
+		}
+		if (`${formRegister.verifyCode.value}`.length < 6) {
+			return false
+		}
+		return true
+	})()
+
+	const submitForm = () => {
+		const data = {
+			userName: formRegister["userName"].value,
+			email: formRegister["email"].value,
+			phoneNumber: formRegister["phoneNumber"].value,
+			password: formRegister["password"].value,
+			verifyCode: formRegister["verifyCode"].value,
+		}
+		AuthAPI.register(data)
+			.then(() => {
+				router.push("/login")
+				dispatch(
+					notify({
+						message: "Đăng kí thành công!",
+						type: typeNotification.success,
+					}),
+				)
+			})
+			.catch((err) => {
+				const message = err.message || "Error!"
+				dispatch(
+					notify({
+						message,
+						type: typeNotification.error,
+					}),
+				)
+				console.log(err)
+			})
+	}
+
 	return (
 		<Card>
 			<Card.Body>
@@ -69,7 +128,9 @@ function FormRegister() {
 
 				<Spacer y={0.5} />
 
-				<Button>Register</Button>
+				<Button onClick={submitForm} disabled={!checkValidateAll}>
+					Register
+				</Button>
 
 				<Spacer y={0.5} />
 				<Link

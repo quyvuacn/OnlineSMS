@@ -3,13 +3,12 @@ import axiosConfig from "./axiosConfig"
 export const AuthAPI = {
 	register({ userName, email, phoneNumber, password, verifyCode }) {
 		let data = {
-			username: userName,
+			userName: userName,
 			email: email,
-			phonenumber: phoneNumber,
+			phoneNumber: phoneNumber,
 			password: password,
-			verifycode: verifyCode,
+			verifyCode: verifyCode,
 		}
-
 		return axiosConfig.post("/Account/register", data)
 	},
 	login({ phoneNumber, password, verifyCode = null }) {
@@ -24,16 +23,6 @@ export const AuthAPI = {
 	logout() {},
 	verifyPhoneNumber(phoneNumber) {
 		let data = { phoneNumber: phoneNumber }
-
-		// axiosConfig.get("/ok")s
-		// axiosConfig
-		// 	.post("/user", {})
-		// 	.then(function (response) {
-		// 		console.log(response)
-		// 	})
-		// 	.catch(function (error) {
-		// 		console.log(error)
-		// 	})
 		return axiosConfig.post("/Account/verify-phonenumber", data)
 	},
 }

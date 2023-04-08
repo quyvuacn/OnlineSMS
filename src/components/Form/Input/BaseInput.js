@@ -1,6 +1,7 @@
 import { Input } from "@nextui-org/react"
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
 import { useDispatch, useSelector } from "react-redux"
+import { useRef } from "react"
 
 function BaseInput({
 	name,
@@ -15,17 +16,22 @@ function BaseInput({
 	placeholder = "",
 	action,
 }) {
+	const input = useRef(0)
 	const formRegister = useSelector((state) => state.formRegister)
 	const stateInfo = formRegister[name]
 
 	const dispatch = useDispatch()
 
 	const handlerValue = (ev) => {
-		let valueInput = ev.target.value
+		let currentValueInput = ev.target.value
 
-		valueInput = allowSpaces ? valueInput : valueInput.replace(" ", "")
+		let valueInput = allowSpaces
+			? currentValueInput
+			: currentValueInput.replace(" ", "")
 		valueInput =
-			type === "number" ? valueInput.replace(/[^\d]/g, "") : valueInput
+			type === "number"
+				? currentValueInput.replace(/[^\d]/g, "")
+				: currentValueInput
 
 		if (!valueInput) {
 			dispatch(
@@ -124,6 +130,7 @@ function BaseInput({
 						onChange={handlerValue}
 						value={stateInfo.value}
 						minLength={8}
+						ref={input}
 					/>
 					<ValidInput
 						message={stateInfo.info}
@@ -141,6 +148,7 @@ function BaseInput({
 						placeholder={placeholder}
 						onChange={handlerValue}
 						value={stateInfo.value}
+						ref={input}
 					/>
 					<ValidInput
 						message={stateInfo.info}

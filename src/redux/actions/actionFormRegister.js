@@ -63,3 +63,13 @@ export const setVerifycode = createAction(
 		}
 	},
 )
+export const setValidateAll = createAction(
+	"formRegister/setValidateAll",
+	function (data) {
+		return {
+			payload: {
+				validateAll: data,
+			},
+		}
+	},
+)

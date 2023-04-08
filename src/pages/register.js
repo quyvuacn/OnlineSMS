@@ -1,8 +1,8 @@
 import classNames from "classnames/bind"
 import styles from "@/styles/login.module.css"
-import { Card, Text, Input, Button, Spacer } from "@nextui-org/react"
-import Link from "@/customizeNextUI/nextui-org/Link"
+import { Text, Spacer } from "@nextui-org/react"
 import FormRegister from "@/components/Form/FormRegister"
+import NoLayout from "@/components/NoLayout"
 
 const cx = classNames.bind(styles)
 
@@ -25,6 +25,4 @@ function Login() {
 
 export default Login
 
-Login.getLayout = function getLayout(content) {
-	return <>{content}</>
-}
+Login.layout = NoLayout
