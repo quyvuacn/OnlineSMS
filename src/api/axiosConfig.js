@@ -1,24 +1,20 @@
 import axios from "axios"
-import { cookies } from "next/headers"
+import queryString from "query-string"
 
 const axiosConfig = axios.create({
 	baseURL: "http://localhost:5141/api/",
-	timeout: 5000,
 	headers: {
-		"Content-Type": "application/json",
+		"content-type": "application/json",
+		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
 	},
+	paramsSerializer: (params) => queryString.stringify(params),
 })
-
-axiosConfig.interceptors.request.use((config) => {
-	const cookieStore = cookies()
-	const token = cookieStore.get("token")
-	if (token) {
-		config.headers.Authorization = `Bearer ${token}`
-	}
+axiosConfig.interceptors.request.use(async (config) => {
+	// Handle token here ...
 	return config
 })
-
-axiosConfig.interceptors.request.use(
+axiosConfig.interceptors.response.use(
 	(response) => {
 		if (response && response.data) {
 			return response.data
@@ -26,9 +22,8 @@ axiosConfig.interceptors.request.use(
 		return response
 	},
 	(error) => {
-		const { response, message } = error
+		// Handle errors
 		throw error
 	},
 )
-
 export default axiosConfig

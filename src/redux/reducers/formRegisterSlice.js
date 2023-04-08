@@ -1,20 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-class StateInput {
-	constructor() {
-		this.value = ""
-		this.isValidate = false
-		this.info = "Required to fill in"
-		this.showInfo = false
+const initStateItem = (stateName) => {
+	return {
+		value: "",
+		isValidate: false,
+		info: "Required to fill in",
+		showInfo: false,
+		stateName: stateName,
+	}
+}
+
+const initStateVerifycode = (stateName) => {
+	return {
+		...initStateItem(stateName),
+		isLoading: false,
+		showBtnSend: false,
+		disable: true,
 	}
 }
 
 const setState = (state, action) => {
-	const data = action.payload
-	const stateName = data.stateName
-	delete data.stateName
-
-	state = {
+	const { stateName, ...data } = action.payload
+	return {
 		...state,
 		[stateName]: {
 			...state[stateName],
@@ -23,18 +30,19 @@ const setState = (state, action) => {
 	}
 }
 
-const initialState = {
-	userName: new StateInput(),
-	phoneNumber: new StateInput(),
-	email: new StateInput(),
-	password: new StateInput(),
-	confirmPassword: new StateInput(),
-	verifycode: new StateInput(),
+const initialForm = {
+	userName: initStateItem("userName"),
+	phoneNumber: initStateItem("phoneNumber"),
+	email: initStateItem("email"),
+	password: initStateItem("password"),
+	confirmPassword: initStateItem("confirmPassword"),
+	verifyCode: initStateVerifycode("verifyCode"),
+	validateAll: false,
 }
 
 const formRegisterSlice = createSlice({
 	name: "formRegister",
-	initialState: initialState,
+	initialState: initialForm,
 	reducers: {
 		setUserName: setState,
 		setPhoneNumber: setState,
@@ -42,6 +50,16 @@ const formRegisterSlice = createSlice({
 		setPassword: setState,
 		setConfirmPassword: setState,
 		setVerifycode: setState,
+		setValidateAll: (state, action) => {
+			const { validateAll } = action.payload
+			return {
+				...state,
+				validateAll,
+			}
+		},
+		clearForm: (state) => {
+			state = initialState
+		},
 	},
 })
 
@@ -52,6 +70,8 @@ export const {
 	setPassword,
 	setConfirmPassword,
 	setVerifycode,
+	setValidateAll,
+	clearForm,
 } = formRegisterSlice.actions
 
-export default formRegisterSlice
+export default formRegisterSlice.reducer

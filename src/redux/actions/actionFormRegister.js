@@ -1,75 +1,63 @@
 import { createAction } from "@reduxjs/toolkit"
 
 export const setUserName = createAction(
-	"registerForm/setUserName",
+	"formRegister/setUserName",
 	function (data) {
 		return {
 			payload: {
-				userName: {
-					...data,
-				},
+				...data,
 				stateName: "userName",
 			},
 		}
 	},
 )
 export const setPhoneNumber = createAction(
-	"registerForm/setPhoneNumber",
-	function () {
+	"formRegister/setPhoneNumber",
+	function (data) {
 		return {
 			payload: {
-				phoneNumber: {
-					...data,
-				},
+				...data,
 				stateName: "phoneNumber",
 			},
 		}
 	},
 )
-export const setEmail = createAction("registerForm/setEmail", function () {
+export const setEmail = createAction("formRegister/setEmail", function (data) {
 	return {
 		payload: {
-			email: {
-				...data,
-			},
+			...data,
 			stateName: "email",
 		},
 	}
 })
 export const setPassword = createAction(
-	"registerForm/setPassword",
-	function () {
+	"formRegister/setPassword",
+	function (data) {
 		return {
 			payload: {
-				password: {
-					...data,
-				},
+				...data,
 				stateName: "password",
 			},
 		}
 	},
 )
 export const setConfirmPassword = createAction(
-	"registerForm/setConfirmPassword",
-	function () {
+	"formRegister/setConfirmPassword",
+	function (data) {
 		return {
 			payload: {
-				confirmPassword: {
-					...data,
-				},
+				...data,
 				stateName: "confirmPassword",
 			},
 		}
 	},
 )
 export const setVerifycode = createAction(
-	"registerForm/setVerifycode",
-	function () {
+	"formRegister/setVerifycode",
+	function (data) {
 		return {
 			payload: {
-				verifyCode: {
-					...data,
-				},
+				...data,
 				stateName: "verifyCode",
 			},
 		}

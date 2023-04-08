@@ -1,65 +1,68 @@
 import { Card, Button, Spacer } from "@nextui-org/react"
+import { useDispatch, useSelector } from "react-redux"
+
 import Link from "@/customizeNextUI/nextui-org/Link"
-import { useState, useEffect } from "react"
 
 import BaseInput from "./Input/BaseInput"
 import InputVerifyCode from "./Input/InputVerifyCode"
-import { useDispatch, useSelector } from "react-redux"
 import {
 	setUserName,
 	setPhoneNumber,
 	setEmail,
 	setPassword,
 	setConfirmPassword,
-	setVerifycode,
 } from "@/redux/actions/actionFormRegister"
 
 function FormRegister() {
-	const dispatch = useDispatch()
-	const formRegister = useSelector((state) => state.formRegister)
-
+	// const formRegister = useSelector((state) => state.formRegister)
+	// console.log(formRegister)
 	return (
 		<Card>
 			<Card.Body>
 				<BaseInput
 					minLength={6}
 					maxLength={20}
-					name="Username"
+					name="userName"
 					regex={/^[a-zA-Z0-9]+$/}
 					allowSpaces={false}
 					contentLeft={<i className="fa-solid fa-user"></i>}
 					placeholder="Username"
+					action={setUserName}
 				/>
 
 				<BaseInput
-					name="PhoneNumber"
+					name="phoneNumber"
 					type="number"
-					length={10}
+					length={11}
 					contentLeft={<i className="fa-solid fa-mobile"></i>}
 					placeholder="Phone Number"
+					action={setPhoneNumber}
 				/>
 
 				<BaseInput
 					type="email"
-					name="Email"
+					name="email"
 					contentLeft={<i class="fa-solid fa-envelope"></i>}
 					placeholder="Email"
+					action={setEmail}
 				/>
 
 				<BaseInput
 					type="password"
-					name="Password"
+					name="password"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Password"
 					minLength={10}
+					action={setPassword}
 				/>
 
 				<BaseInput
 					type="password"
-					name="Password"
+					name="confirmPassword"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Confirm Password"
 					minLength={10}
+					action={setConfirmPassword}
 				/>
 
 				<InputVerifyCode lenght={6} />

@@ -1,6 +1,6 @@
 import { Input } from "@nextui-org/react"
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
-import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 function BaseInput({
 	name,
@@ -13,13 +13,12 @@ function BaseInput({
 	contentLeft,
 	contentRight,
 	placeholder = "",
+	action,
 }) {
-	const [value, setValue] = useState("")
+	const formRegister = useSelector((state) => state.formRegister)
+	const stateInfo = formRegister[name]
 
-	const [validateValue, setValidateValue] = useState({
-		info: "Required to fill in",
-		showInfo: false,
-	})
+	const dispatch = useDispatch()
 
 	const handlerValue = (ev) => {
 		let valueInput = ev.target.value
@@ -27,88 +26,91 @@ function BaseInput({
 		valueInput = allowSpaces ? valueInput : valueInput.replace(" ", "")
 		valueInput =
 			type === "number" ? valueInput.replace(/[^\d]/g, "") : valueInput
+
 		if (!valueInput) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: name ? `${name} not be empty` : "Not be empty",
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (length && valueInput.length != length) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: `${name} có độ dài là ${length}.`,
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (valueInput.length < minLength) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: `Minimum length is ${minLength}.`,
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (valueInput.length > maxLength) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: `Maximum length is ${maxLength}.`,
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (regex && !regex.test(valueInput)) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: name ? `${name} không đúng định dạng` : "Không đúng định dạng",
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (
 			type === "email" &&
 			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valueInput)
 		) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: `Email không đúng định dạng`,
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else if (type === "password" && valueInput.search(" ") !== -1) {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: false,
 					info: name ? `${name} không chứa dấu cách` : "Không chứa dấu cách",
 					showInfo: true,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		} else {
-			setValidateValue((state) => {
-				return {
-					...state,
+			dispatch(
+				action({
+					value: valueInput,
 					isValidate: true,
 					info: "OK!",
 					showInfo: false,
-				}
-			})
+					stateName: name,
+				}),
+			)
 		}
-		const infoInput = {
-			value: valueInput,
-			validateValue: validateValue,
-		}
-
-		setValue(valueInput)
 	}
 
 	return (
@@ -120,13 +122,13 @@ function BaseInput({
 						contentLeft={contentLeft}
 						placeholder={placeholder}
 						onChange={handlerValue}
-						value={value}
+						value={stateInfo.value}
 						minLength={8}
 					/>
 					<ValidInput
-						message={validateValue.info}
-						hidden={!validateValue.showInfo}
-						isValid={validateValue.isValidate}
+						message={stateInfo.info}
+						hidden={!stateInfo.showInfo}
+						isValid={stateInfo.isValidate}
 					/>
 				</>
 			)}
@@ -138,12 +140,12 @@ function BaseInput({
 						contentRight={contentRight}
 						placeholder={placeholder}
 						onChange={handlerValue}
-						value={value}
+						value={stateInfo.value}
 					/>
 					<ValidInput
-						message={validateValue.info}
-						hidden={!validateValue.showInfo}
-						isValid={validateValue.isValidate}
+						message={stateInfo.info}
+						hidden={!stateInfo.showInfo}
+						isValid={stateInfo.isValidate}
 					/>
 				</>
 			)}

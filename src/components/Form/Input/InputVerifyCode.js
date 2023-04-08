@@ -1,45 +1,90 @@
 import { useEffect, useState } from "react"
 import { Input, Text, Loading } from "@nextui-org/react"
+import { useDispatch, useSelector } from "react-redux"
+
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
 import SendButton from "@/customizeNextUI/nextui-org/SendButton"
+import {
+	setVerifycode as action,
+	setConfirmPassword,
+} from "@/redux/actions/actionFormRegister"
+import { AuthAPI } from "@/api/authApi"
 
-function InputVerifyCode({ lenght, showBtnSendSMS, onSendSMS }) {
-	console.log(showBtnSendSMS)
-	const [verifycode, setVerifycode] = useState("")
-	const [isLoading, setIsLoading] = useState(false)
-	const [placeholder, setPlaceholder] = useState("Verify phone number")
-	const [icon, setIcon] = useState(
-		<i
-			className="fa-solid fa-paper-plane-top"
-			style={{ color: "#0072F5" }}
-		></i>,
-	)
-	const handlerVerifycode = (ev) => {
-		setVerifycode(ev.target.value.replace(/\D/, ""))
-	}
+function InputVerifyCode({ lenght }) {
+	const formRegister = useSelector((state) => state.formRegister)
+	const stateInfo = formRegister["verifyCode"]
+	const password = formRegister["password"]
+	const confirmPassword = formRegister["confirmPassword"]
+	const phoneNumber = formRegister["phoneNumber"]
 
-	const handlerLoading = () => {
-		if (!isLoading && showBtnSendSMS) {
-			setIsLoading(true)
-			setIcon(<Loading size="xs" />)
-			setPlaceholder("Verifying phone number")
-			onSendSMS()
+	const dispatch = useDispatch()
+
+	const checkValidateAll = (() => {
+		for (let stateItemKey in formRegister) {
+			if (stateItemKey == "verifyCode" || stateItemKey == "validateAll")
+				continue
+			if (!formRegister[stateItemKey].isValidate) {
+				return false
+			}
 		}
+		if (password.value !== confirmPassword.value) {
+			dispatch(
+				setConfirmPassword({
+					isValidate: false,
+					info: "Mật khẩu không trùng khớp",
+					showInfo: true,
+				}),
+			)
+			return false
+		}
+
+		return true
+	})()
+
+	const iconSend = (
+		<i className="fa-solid fa-paper-plane-top" style={{ color: "#0072F5" }}></i>
+	)
+
+	const iconLoading = <Loading size="xs" />
+
+	const handlerVerifycode = (ev) => {
+		const valueInput = ev.target.value.replace(/\D/, "")
+		dispatch(
+			action({
+				value: valueInput,
+			}),
+		)
 	}
 
-	useEffect(() => {}, [isLoading])
+	const sendSMS = () => {
+		dispatch(
+			action({
+				isLoading: true,
+			}),
+		)
+
+		AuthAPI.verifyPhoneNumber(phoneNumber.value)
+			.then((response) => {
+				console.log(response)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
 
 	return (
 		<>
 			<Input
 				underlined
 				contentLeft={<i className="fa-sharp fa-solid fa-shield-check"></i>}
-				placeholder={placeholder}
+				placeholder={"Xác minh số điện thoại"}
 				onChange={handlerVerifycode}
-				value={verifycode}
+				value={stateInfo.value}
 				contentRight={
-					showBtnSendSMS && (
-						<SendButton onClick={handlerLoading}>{icon}</SendButton>
+					!checkValidateAll && (
+						<SendButton onClick={sendSMS}>
+							{stateInfo.isLoading ? iconLoading : iconSend}
+						</SendButton>
 					)
 				}
 				maxLength={lenght}

@@ -3,8 +3,8 @@ import todosSlice from "@/redux/reducers/todosSlice"
 import formRegisterSlice from "@/redux/reducers/formRegisterSlice"
 
 const rootReducer = combineReducers({
-	todos: todosSlice,
 	formRegister: formRegisterSlice,
+	todos: todosSlice,
 })
 
 export default rootReducer
