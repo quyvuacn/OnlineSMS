@@ -1,9 +1,11 @@
-import { Card, Button, Spacer } from "@nextui-org/react"
+import parsePhoneNumber from "libphonenumber-js"
+import { Card, Button, Spacer, Text } from "@nextui-org/react"
 import { useDispatch, useSelector } from "react-redux"
 
 import Link from "@/customizeNextUI/nextui-org/Link"
 
 import BaseInput from "./Input/BaseInput"
+import PopoverSelect from "./Input/PopoverSelect"
 import InputVerifyCode from "./Input/InputVerifyCode"
 import {
 	setUserName,
@@ -12,6 +14,7 @@ import {
 	setPassword,
 	setConfirmPassword,
 } from "@/redux/actions/actionFormRegister"
+import { clearForm } from "@/redux/reducers/formRegisterSlice"
 import { AuthAPI } from "@/api/authApi"
 import { useRouter } from "next/router"
 import { notify } from "@/redux/reducers/notificationSlice"
@@ -23,14 +26,17 @@ function FormRegister() {
 	const password = formRegister["password"]
 	const confirmPassword = formRegister["confirmPassword"]
 	const phoneNumber = formRegister["phoneNumber"]
+	const country = formRegister["country"]
+
 	const dispatch = useDispatch()
 	const router = useRouter()
-
-	console.log(notification)
-
 	const checkValidateAll = (() => {
 		for (let stateItemKey in formRegister) {
-			if (stateItemKey == "verifyCode" || stateItemKey == "validateAll")
+			if (
+				stateItemKey == "verifyCode" ||
+				stateItemKey == "validateAll" ||
+				stateItemKey == "country"
+			)
 				continue
 			if (!formRegister[stateItemKey].isValidate) {
 				return false
@@ -46,10 +52,17 @@ function FormRegister() {
 	})()
 
 	const submitForm = () => {
+		const phoneNumber = formRegister.phoneNumber.value
+		const countryCode = formRegister.country.value
+
+		const phoneNumberFormat = parsePhoneNumber(
+			`${countryCode} ${phoneNumber}`,
+		).number
+
 		const data = {
 			userName: formRegister["userName"].value,
 			email: formRegister["email"].value,
-			phoneNumber: formRegister["phoneNumber"].value,
+			phoneNumber: phoneNumberFormat,
 			password: formRegister["password"].value,
 			verifyCode: formRegister["verifyCode"].value,
 		}
@@ -62,9 +75,16 @@ function FormRegister() {
 						type: typeNotification.success,
 					}),
 				)
+
+				dispatch(clearForm())
 			})
 			.catch((err) => {
-				const message = err.message || "Error!"
+				let message = err.message || "Error!"
+				const data = err.data
+				console.log(data)
+				if (Object.keys(data).length != 0) {
+					message = `${data.field} : ${data.message}`
+				}
 				dispatch(
 					notify({
 						message,
@@ -90,11 +110,18 @@ function FormRegister() {
 				/>
 
 				<BaseInput
+					className="form-phoneNumber"
 					name="phoneNumber"
 					type="number"
-					length={11}
-					contentLeft={<i className="fa-solid fa-mobile"></i>}
-					placeholder="Phone Number"
+					length={10}
+					contentLeft={
+						<Text span size="$sm">
+							{country.value}
+						</Text>
+					}
+					contentLeftStyling={false}
+					labelLeft={<PopoverSelect />}
+					placeholder=""
 					action={setPhoneNumber}
 				/>
 
@@ -111,7 +138,7 @@ function FormRegister() {
 					name="password"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Password"
-					minLength={10}
+					minLength={8}
 					action={setPassword}
 				/>
 
@@ -120,7 +147,7 @@ function FormRegister() {
 					name="confirmPassword"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Confirm Password"
-					minLength={10}
+					minLength={8}
 					action={setConfirmPassword}
 				/>
 

@@ -1,7 +1,11 @@
 import { Input } from "@nextui-org/react"
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
 import { useDispatch, useSelector } from "react-redux"
-import { useRef } from "react"
+import { useEffect, useRef, useState, useLayoutEffect } from "react"
+import classNames from "classnames/bind"
+import styles from ".././form.module.css"
+import { useBinding } from "@/hooks/useBinding"
+const cx = classNames.bind(styles)
 
 function BaseInput({
 	name,
@@ -15,23 +19,23 @@ function BaseInput({
 	contentRight,
 	placeholder = "",
 	action,
+	labelLeft,
+	className,
 }) {
-	const input = useRef(0)
 	const formRegister = useSelector((state) => state.formRegister)
 	const stateInfo = formRegister[name]
 
 	const dispatch = useDispatch()
+	const ref = useRef()
 
 	const handlerValue = (ev) => {
-		let currentValueInput = ev.target.value
+		let valueInput = ev.target.value
+		const keyPress = ev.nativeEvent.data
 
-		let valueInput = allowSpaces
-			? currentValueInput
-			: currentValueInput.replace(" ", "")
-		valueInput =
-			type === "number"
-				? currentValueInput.replace(/[^\d]/g, "")
-				: currentValueInput
+		if (keyPress) {
+			if (!allowSpaces && keyPress == " ") return
+			if (type === "number" && !/\d/.test(keyPress)) return
+		}
 
 		if (!valueInput) {
 			dispatch(
@@ -124,13 +128,14 @@ function BaseInput({
 			{type == "password" && (
 				<>
 					<Input.Password
+						className={className}
 						underlined
 						contentLeft={contentLeft}
 						placeholder={placeholder}
-						onChange={handlerValue}
+						onInput={handlerValue}
 						value={stateInfo.value}
 						minLength={8}
-						ref={input}
+						ref={ref}
 					/>
 					<ValidInput
 						message={stateInfo.info}
@@ -142,13 +147,15 @@ function BaseInput({
 			{type !== "password" && (
 				<>
 					<Input
+						className={className}
 						underlined
+						labelLeft={labelLeft}
 						contentLeft={contentLeft}
 						contentRight={contentRight}
 						placeholder={placeholder}
-						onChange={handlerValue}
+						onInput={handlerValue}
 						value={stateInfo.value}
-						ref={input}
+						ref={ref}
 					/>
 					<ValidInput
 						message={stateInfo.info}

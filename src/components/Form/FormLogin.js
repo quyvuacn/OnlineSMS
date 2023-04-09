@@ -1,54 +1,96 @@
-import { Card, Text, Input, Button, Spacer } from "@nextui-org/react"
-import SendButton from "@/customizeNextUI/nextui-org/SendButton"
+import parsePhoneNumber from "libphonenumber-js"
+import { Card, Button, Spacer, Text } from "@nextui-org/react"
+import { getCookies, setCookie, deleteCookie } from "cookies-next"
+import { useDispatch, useSelector } from "react-redux"
 import Link from "@/customizeNextUI/nextui-org/Link"
-import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
+
+import BaseInput from "./Input/BaseInput"
+import PopoverSelect from "./Input/PopoverSelect"
+import InputVerifyCode from "./Input/InputVerifyCode"
+
+import { setPhoneNumber, setPassword } from "@/redux/actions/actionFormRegister"
+import { AuthAPI } from "@/api/authApi"
+import { useRouter } from "next/router"
+import { notify } from "@/redux/reducers/notificationSlice"
+import typeNotification from "@/common/typeNotification"
+import { clearForm } from "@/redux/reducers/formRegisterSlice"
 
 function FormLogin() {
+	const formRegister = useSelector((state) => state.formRegister)
+	const country = formRegister["country"]
+
+	const dispatch = useDispatch()
+	const router = useRouter()
+
+	const checkValidateAll =
+		formRegister["phoneNumber"].isValidate &&
+		formRegister["password"].isValidate
+
+	const submitForm = () => {
+		const phoneNumber = formRegister.phoneNumber.value
+		const countryCode = formRegister.country.value
+
+		const phoneNumberFormat = parsePhoneNumber(
+			`${countryCode} ${phoneNumber}`,
+		).number
+
+		const data = {
+			phoneNumber: phoneNumberFormat,
+			password: formRegister["password"].value,
+		}
+
+		AuthAPI.login(data)
+			.then(({ data }) => {
+				console.log("okokokok")
+				dispatch(clearForm())
+				setCookie("token", data.token)
+				router.push("/chat")
+			})
+			.catch((err) => {
+				const message = err.message || "Error!"
+				dispatch(
+					notify({
+						message,
+						type: typeNotification.error,
+					}),
+				)
+				console.log(err)
+			})
+	}
+
 	return (
 		<Card>
 			<Card.Body>
-				<Input
-					underlined
-					contentLeft={<i className="fa-solid fa-mobile"></i>}
-					placeholder="Phone Number"
-					initialValue=""
+				<BaseInput
+					className="form-phoneNumber"
+					name="phoneNumber"
+					type="number"
+					length={10}
+					contentLeft={
+						<Text span size="$sm">
+							{country.value}
+						</Text>
+					}
+					contentLeftStyling={false}
+					labelLeft={<PopoverSelect />}
+					placeholder=""
+					action={setPhoneNumber}
 				/>
-				<ValidInput message="Số điện thoại không hợp lệ" />
 
-				<Input.Password
-					underlined
+				<BaseInput
+					type="password"
+					name="password"
 					contentLeft={<i className="fa-solid fa-lock-alt"></i>}
 					placeholder="Password"
-					initialValue=""
+					minLength={8}
+					action={setPassword}
 				/>
-				<ValidInput message="Số điện thoại không hợp lệ" hidden={false} />
 
-				<Input
-					underlined
-					contentLeft={<i className="fa-sharp fa-solid fa-shield-check"></i>}
-					placeholder="Send code"
-					initialValue=""
-					contentRight={
-						<SendButton>
-							<i className="fa-solid fa-paper-plane-top"></i>
-						</SendButton>
-					}
-					contentRightStyling={false}
-				/>
-				<ValidInput message="Số điện thoại không hợp lệ" />
+				<Spacer y={0.5} />
 
-				{/* <Text span size="$xs">
-      Gửi lại code sau : 20s
-    </Text>
-    <Link href="javascript:void(0)">
-      <Text span size="$xs" color="primary">
-        Send code
-      </Text>
-    </Link> */}
-
-				<Spacer y={1} />
-
-				<Button>Login</Button>
+				<Button onClick={submitForm} disabled={!checkValidateAll}>
+					Login
+				</Button>
 				<Spacer y={0.5} />
 				<div style={{ display: "flex" }}>
 					<Link

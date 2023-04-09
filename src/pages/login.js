@@ -23,7 +23,6 @@ function Login() {
 		</div>
 	)
 }
+Login.layout = NoLayout
 
 export default Login
-
-Login.layout = NoLayout

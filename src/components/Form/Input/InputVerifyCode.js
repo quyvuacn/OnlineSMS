@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Input, Text, Loading } from "@nextui-org/react"
 import { useDispatch, useSelector } from "react-redux"
+import parsePhoneNumber from "libphonenumber-js"
 
 import ValidInput from "@/customizeNextUI/nextui-org/ValidInput"
 import SendButton from "@/customizeNextUI/nextui-org/SendButton"
@@ -24,7 +25,11 @@ function InputVerifyCode({ lenght }) {
 
 	const checkValidateAll = (() => {
 		for (let stateItemKey in formRegister) {
-			if (stateItemKey == "verifyCode" || stateItemKey == "validateAll")
+			if (
+				stateItemKey == "verifyCode" ||
+				stateItemKey == "validateAll" ||
+				stateItemKey == "country"
+			)
 				continue
 			if (!formRegister[stateItemKey].isValidate) {
 				return false
@@ -61,6 +66,13 @@ function InputVerifyCode({ lenght }) {
 	}
 
 	const sendSMS = () => {
+		const phoneNumber = formRegister.phoneNumber.value
+		const countryCode = formRegister.country.value
+
+		const phoneNumberFormat = parsePhoneNumber(
+			`${countryCode} ${phoneNumber}`,
+		).number
+
 		if (!stateInfo.isLoading && !stateInfo.disable) {
 			dispatch(
 				action({
@@ -68,7 +80,7 @@ function InputVerifyCode({ lenght }) {
 				}),
 			)
 
-			AuthAPI.verifyPhoneNumber(phoneNumber.value)
+			AuthAPI.verifyPhoneNumber(phoneNumberFormat)
 				.then((response) => {
 					setPlaceholder("Code hết hạn sau 5p")
 					dispatch(

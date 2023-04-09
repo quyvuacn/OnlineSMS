@@ -17,6 +17,7 @@ const initStateVerifycode = (stateName) => {
 		isCountdown: false,
 		showBtnSend: false,
 		disable: false,
+		count: 60,
 	}
 }
 
@@ -39,6 +40,12 @@ const initialForm = {
 	confirmPassword: initStateItem("confirmPassword"),
 	verifyCode: initStateVerifycode("verifyCode"),
 	validateAll: false,
+	country: {
+		label: "Vietnam",
+		value: "+84",
+		code: "VN",
+		stateName: "country",
+	},
 }
 
 const formRegisterSlice = createSlice({
@@ -58,8 +65,9 @@ const formRegisterSlice = createSlice({
 				validateAll,
 			}
 		},
-		clearForm: (state) => {
-			state = initialState
+		setCountry: setState,
+		clearForm: () => {
+			return initialForm
 		},
 	},
 })

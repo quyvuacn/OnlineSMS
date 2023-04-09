@@ -1,6 +1,8 @@
 * {
 	box-sizing: border-box;
 	-webkit-user-drag: none;
+	padding: 0;
+	margin: 0;
 }
 #main {
 	height: 100vh;
@@ -9,3 +11,19 @@
 .content {
 	display: flex;
 }
+
+*::-webkit-scrollbar {
+	width: 6px; /* Chiều rộng của thanh cuộn */
+}
+
+*::-webkit-scrollbar-track {
+	background-color: #f5f5f5; /* Màu nền của thanh cuộn */
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 8px;
+	background-color: #656565; /* Màu của thanh cuộn */
+}
+
+/* Overwrite nextui */
+@import "./overwrite-nextui.css";

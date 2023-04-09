@@ -4,32 +4,38 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { setVerifycode } from "@/redux/actions/actionFormRegister"
 
-function Countdown({ stateNumber }) {
-	const [seconds, setSeconds] = useState(stateNumber)
+function Countdown() {
 	const formRegister = useSelector((state) => state.formRegister)
 	const stateInfo = formRegister["verifyCode"]
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
+		const newCount = stateInfo.count - 1
 		const interval = setInterval(() => {
-			setSeconds((prevSeconds) => prevSeconds - 1)
+			dispatch(
+				setVerifycode({
+					count: newCount,
+				}),
+			)
 		}, 1000)
 		return () => clearInterval(interval)
-	}, [])
+	}, [stateInfo])
 
 	useEffect(() => {
-		if (seconds === 0) {
+		if (stateInfo.count == 0) {
 			dispatch(
 				setVerifycode({
 					isLoading: false,
 					isCountdown: false,
 					disable: false,
+					count: 60,
 				}),
 			)
 		}
-	}, [seconds])
+	}, [stateInfo])
 
-	return <Text size="$xs">{seconds} s</Text>
+	return <Text size="$xs">{stateInfo.count} s</Text>
 }
 
 export default Countdown

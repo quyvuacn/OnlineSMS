@@ -26,9 +26,15 @@ function Sidebar() {
 							/>
 						</Popover.Trigger>
 						<Popover.Content css={{ borderRadius: "4px" }}>
-							<Text css={{ p: "$10" }}>
-								This is the content of the popover.
-							</Text>
+							<Link
+								href={"/logout"}
+								className={cx(
+									{ active: router.pathname == "/logout" },
+									"tab-top-item",
+								)}
+							>
+								Logout
+							</Link>
 						</Popover.Content>
 					</Popover>
 				</div>

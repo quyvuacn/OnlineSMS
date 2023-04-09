@@ -1,11 +1,10 @@
-import Sidebar from "./Sidebar"
 import Notification from "./Toast/Notification"
 
 function NoLayout({ children }) {
 	return (
 		<>
 			<Notification />
-			{children}
+			<main>{children}</main>
 		</>
 	)
 }

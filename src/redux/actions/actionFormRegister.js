@@ -73,3 +73,15 @@ export const setValidateAll = createAction(
 		}
 	},
 )
+
+export const setCountry = createAction(
+	"formRegister/setCountry",
+	function (data) {
+		return {
+			payload: {
+				...data,
+				stateName: "country",
+			},
+		}
+	},
+)

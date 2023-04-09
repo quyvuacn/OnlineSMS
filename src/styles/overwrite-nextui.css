@@ -1,0 +1,14 @@
+.form-phoneNumber .nextui-input-content--left {
+	max-width: 5ch !important;
+	width: auto;
+	padding-left: 2px;
+	padding-right: 0px;
+}
+.form-phoneNumber .nextui-input-label--left {
+	padding: 0;
+}
+.form-phoneNumber .nextui-input-label--left button {
+	padding: 0 var(--nextui-space-sm);
+	outline: none;
+	border: none;
+}

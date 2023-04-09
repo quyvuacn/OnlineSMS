@@ -1,5 +1,6 @@
 import axios from "axios"
 import queryString from "query-string"
+import { getCookies, setCookie, deleteCookie } from "cookies-next"
 
 const axiosConfig = axios.create({
 	baseURL: "http://localhost:5141/api/",
@@ -11,7 +12,10 @@ const axiosConfig = axios.create({
 	paramsSerializer: (params) => queryString.stringify(params),
 })
 axiosConfig.interceptors.request.use(async (config) => {
-	// Handle token here ...
+	const { token } = getCookies("token")
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`
+	}
 	return config
 })
 axiosConfig.interceptors.response.use(

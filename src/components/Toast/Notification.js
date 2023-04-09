@@ -6,7 +6,6 @@ import { useEffect } from "react"
 function Notification() {
 	const notification = useSelector((state) => state.notification)
 	useEffect(() => {
-		console.log("toast")
 		toast(notification.message, {
 			type: notification.type,
 		})
@@ -16,7 +15,7 @@ function Notification() {
 		<>
 			<ToastContainer
 				position="top-right"
-				autoClose={1500}
+				autoClose={2000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick

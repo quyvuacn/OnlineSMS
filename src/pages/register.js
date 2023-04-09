@@ -23,6 +23,6 @@ function Login() {
 	)
 }
 
-export default Login
-
 Login.layout = NoLayout
+
+export default Login
