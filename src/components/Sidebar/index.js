@@ -3,6 +3,7 @@ import classNames from "classnames/bind"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import styles from "./sidebar.module.css"
+import MenuUser from "./MenuUser"
 
 const cx = classNames.bind(styles)
 
@@ -26,15 +27,7 @@ function Sidebar() {
 							/>
 						</Popover.Trigger>
 						<Popover.Content css={{ borderRadius: "4px" }}>
-							<Link
-								href={"/logout"}
-								className={cx(
-									{ active: router.pathname == "/logout" },
-									"tab-top-item",
-								)}
-							>
-								Logout
-							</Link>
+							<MenuUser />
 						</Popover.Content>
 					</Popover>
 				</div>

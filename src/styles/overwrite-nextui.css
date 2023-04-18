@@ -12,3 +12,6 @@
 	outline: none;
 	border: none;
 }
+input:disabled {
+	color: rgb(142, 142, 142) !important;
+}

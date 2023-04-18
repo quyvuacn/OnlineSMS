@@ -40,6 +40,7 @@ function SelectCountry() {
 			ref={selectRef}
 			closeMenuOnSelect={true}
 			filterOption={filterOption}
+			menuIsOpen={true}
 		/>
 	)
 }

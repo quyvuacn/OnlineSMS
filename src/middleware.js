@@ -5,17 +5,20 @@ export default async function middleware(req) {
 	const { pathname } = req.nextUrl
 
 	const token = req.cookies.get("token")?.value
-	// if (pathname == "/") {
-	// 	return NextResponse.redirect(new URL("/chat", req.url))
-	// }
-	// if (!token) {
-	// 	return NextResponse.redirect(new URL("/login", req.url))
-	// }
-	// if (pathname.startsWith("/register")) {
-	// 	return NextResponse.redirect(new URL("/chat", req.url))
-	// }
+	if (pathname == "/") {
+		return NextResponse.redirect(new URL("/chat", req.url))
+	}
+	if (pathname == "/profile") {
+		return NextResponse.redirect(new URL("/profile/self", req.url))
+	}
+	if (!token) {
+		return NextResponse.redirect(new URL("/login", req.url))
+	}
+	if (pathname.startsWith("/register")) {
+		return NextResponse.redirect(new URL("/chat", req.url))
+	}
 }
 
 export const config = {
-	matcher: ["/", "/chat"],
+	matcher: ["/", "/chat", "/profile"],
 }
