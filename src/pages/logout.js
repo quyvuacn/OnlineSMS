@@ -5,9 +5,8 @@ import { getCookies, setCookie, deleteCookie } from "cookies-next"
 function Logout() {
 	const router = useRouter()
 	useEffect(() => {
-		router.push("/login")
-		console.log(getCookies("token"))
 		deleteCookie("token")
+		router.push("/login")
 	}, [])
 	return
 }

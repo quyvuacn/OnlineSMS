@@ -16,7 +16,15 @@ export const profileUser = {
 			dateOfBirth,
 			maritalStatus,
 		}
-		console.log(data)
 		return axiosConfig.post("/Profile/update-overview", data)
+	},
+	getMoreProfile() {
+		return axiosConfig.get("/Profile/more-profile")
+	},
+	createHobbie(hobbieName) {
+		return axiosConfig.post("/Profile/create-hobbie", { name: hobbieName })
+	},
+	createCuisin(cuisineName) {
+		return axiosConfig.post("/Profile/create-cuisine", { name: cuisineName })
 	},
 }

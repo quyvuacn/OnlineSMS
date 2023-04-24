@@ -9,3 +9,57 @@
 	width: 280px;
 	/* display: none; */
 }
+/* wrap_userResult */
+.wrap_userResult {
+	height: 72px;
+	padding: 12px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.wrap_userResult img {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: block;
+}
+.userResult_info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+/* wrap_form-search-friend */
+.wrap_form-search-friend .header {
+	padding: 20px 0;
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+.friend-group-input input {
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	font-size: 14px;
+}
+.friend-group-input button {
+	transform: translateX(-6px);
+}
+.item-friend {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.item-friend {
+	cursor: pointer;
+}
+
+.wrap-info-more {
+	padding: 12px;
+}
+.info-more {
+	display: flex;
+	width: 100%;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 4px 0;
+}

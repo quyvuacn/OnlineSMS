@@ -9,17 +9,6 @@ import axiosConfig from "@/api/axiosConfig"
 function Index() {
 	const [boxChat, setBoxChat] = useState(0)
 
-	// useEffect(() => {
-	// 	axiosConfig
-	// 		.get("/Account")
-	// 		.then((response) => {
-	// 			console.log(response)
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error)
-	// 		})
-	// }, [])
-
 	return (
 		<div className="content">
 			<Search>

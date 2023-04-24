@@ -1,5 +1,6 @@
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react"
 import { useState } from "react"
+import FormAddFriend from "../Form/FormAddFriend"
 
 function AddFriend() {
 	const [visible, setVisible] = useState(false)
@@ -28,17 +29,7 @@ function AddFriend() {
 				onClose={closeHandler}
 			>
 				<Modal.Body>
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
+					<FormAddFriend />
 				</Modal.Body>
 			</Modal>
 		</>

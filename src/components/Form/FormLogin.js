@@ -41,7 +41,6 @@ function FormLogin() {
 
 		AuthAPI.login(data)
 			.then(({ data }) => {
-				console.log("okokokok")
 				dispatch(clearForm())
 				setCookie("token", data.token)
 				router.push("/chat")

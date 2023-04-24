@@ -34,8 +34,8 @@ function EditOverview() {
 			})
 			.catch((error) => {
 				const { data } = error
-				setPhonenumber(data.phoneNumber)
-				setEmail(data.email)
+				setPhonenumber(data?.phoneNumber)
+				setEmail(data?.email)
 				setDateOfBirth("1999-01-01")
 				setGender("male")
 			})

@@ -1,0 +1,19 @@
+.header {
+	padding: 0 16px;
+	height: var(--base-height);
+	display: flex;
+	align-items: center;
+}
+
+.main-content {
+	position: relative;
+	border-top: 1px solid #ccc;
+	height: calc(100vh - var(--base-height));
+	padding: 0 16px;
+}
+.icon {
+	margin-right: 12px;
+}
+.friend-group-input input {
+	margin: 0 !important;
+}

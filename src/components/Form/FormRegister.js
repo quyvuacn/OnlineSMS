@@ -81,7 +81,6 @@ function FormRegister() {
 			.catch((err) => {
 				let message = err.message || "Error!"
 				const data = err.data
-				console.log(data)
 				if (Object.keys(data).length != 0) {
 					message = `${data.field} : ${data.message}`
 				}

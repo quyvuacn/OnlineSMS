@@ -1,0 +1,18 @@
+.tabfriend-item {
+	padding: 0 16px;
+	display: flex;
+	align-items: center;
+	height: 64px;
+	gap: 12px;
+	user-select: none;
+	cursor: pointer;
+}
+.tabfriend-item span {
+	width: 20px;
+}
+.tabfriend-item:hover {
+	background-color: #f3f5f6;
+}
+.active {
+	background-color: #e5efff !important;
+}
