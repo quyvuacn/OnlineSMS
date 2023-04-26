@@ -1,5 +1,7 @@
 import { Avatar, Popover, Text } from "@nextui-org/react"
 import classNames from "classnames/bind"
+import { useState } from "react"
+
 import Link from "next/link"
 import { useRouter } from "next/router"
 import styles from "./sidebar.module.css"
@@ -9,12 +11,21 @@ const cx = classNames.bind(styles)
 
 function Sidebar() {
 	const router = useRouter()
-
+	const [open, setOpen] = useState(false)
 	return (
 		<nav className={cx("wrap")}>
 			<div>
 				<div className={cx("user")}>
-					<Popover isBordered disableShadow placement="right-top" offset={8}>
+					<Popover
+						isBordered
+						disableShadow
+						placement="right-top"
+						offset={8}
+						isOpen={open}
+						shouldCloseOnInteractOutside={() => {
+							setOpen(false)
+						}}
+					>
 						<Popover.Trigger>
 							<Avatar
 								width={48}
@@ -24,10 +35,13 @@ function Sidebar() {
 								css={{ border: "1px solid #fff" }}
 								src="https://i.pravatar.cc/150?u=a04258114e29026702d"
 								tabIndex={-1}
+								onClick={() => {
+									setOpen(!open)
+								}}
 							/>
 						</Popover.Trigger>
 						<Popover.Content css={{ borderRadius: "4px" }}>
-							<MenuUser />
+							<MenuUser setOpen={setOpen} />
 						</Popover.Content>
 					</Popover>
 				</div>
@@ -57,7 +71,7 @@ function Sidebar() {
 							"tab-top-item",
 						)}
 					>
-						<i class="fa-light fa-square-check"></i>
+						<i className="fa-light fa-square-check"></i>
 					</Link>
 				</div>
 			</div>

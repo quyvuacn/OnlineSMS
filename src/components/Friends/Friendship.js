@@ -6,6 +6,7 @@ import styles from "./friendship.module.css"
 import { Text } from "@nextui-org/react"
 import friendApi from "@/api/friendApi"
 import FriendshipAcceptItem from "./FriendshipAcceptItem"
+import FriendshipRequestItem from "./FriendshipRequestItem"
 
 const cx = classNames.bind(styles)
 
@@ -18,7 +19,6 @@ function Friendship() {
 			.listFriendRequest()
 			.then((response) => {
 				const { data } = response
-				console.log(data)
 				setFriendRequests(data.friends)
 			})
 			.catch((error) => {
@@ -29,14 +29,25 @@ function Friendship() {
 			.listFriendAccept()
 			.then((response) => {
 				const { data } = response
-				console.log(data)
-
 				setFriendAccepts(data.friends)
 			})
 			.catch((error) => {
 				console.log(error)
 			})
 	}, [])
+
+	const handleFriendAccepts = (friendAccept) => {
+		const updatedFriendAccepts = friendAccepts.filter(
+			(friend) => friend.id !== friendAccept.id,
+		)
+		setFriendAccepts(updatedFriendAccepts)
+	}
+	const handleFriendRequests = (friendRequest) => {
+		const updatedFriendRequests = friendRequests.filter(
+			(friend) => friend.id !== friendRequest.id,
+		)
+		setFriendRequests(updatedFriendRequests)
+	}
 
 	return (
 		<BaseContent>
@@ -49,7 +60,12 @@ function Friendship() {
 					</div>
 					<div className={cx("list-friendship-accept")}>
 						{friendAccepts.map((friendAccept, index) => {
-							return <FriendshipAcceptItem friendAccept={friendAccept} />
+							return (
+								<FriendshipAcceptItem
+									friendAccept={friendAccept}
+									handleFriendAccepts={handleFriendAccepts}
+								/>
+							)
 						})}
 					</div>
 				</div>
@@ -58,6 +74,16 @@ function Friendship() {
 						<Text b size={"$sm"}>
 							Lời mời đã gửi ({friendRequests.length})
 						</Text>
+					</div>
+					<div className={cx("list-friendship-accept")}>
+						{friendRequests.map((friendRequest, index) => {
+							return (
+								<FriendshipRequestItem
+									friendRequest={friendRequest}
+									handleFriendRequests={handleFriendRequests}
+								/>
+							)
+						})}
 					</div>
 				</div>
 			</div>

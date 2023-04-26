@@ -1,31 +1,51 @@
 import Button from "@/customizeNextUI/nextui-org/Button"
-import {
-	Card,
-	Grid,
-	Text,
-	Row,
-	Link,
-	Dropdown,
-	NavbarLink,
-} from "@nextui-org/react"
+import { Card, Text } from "@nextui-org/react"
 
-function MenuUser() {
+function MenuUser({ setOpen }) {
 	return (
-		<Card css={{ mw: "330px" }} shadow>
+		<Card css={{ w: "280px" }} shadow>
 			<Card.Header>
 				<Text b>Quý Vũ</Text>
 			</Card.Header>
 			<Card.Divider />
-			<Card.Body css={{ py: "$10" }}>
-				<Text>
-					Some quick example text to build on the card title and make up the
-					bulk of the card's content.
-				</Text>
+			<Card.Body css={{ py: "$5" }}>
+				<Button
+					onClick={() => {
+						setOpen(false)
+					}}
+					light
+					href="/profile"
+					style={{ width: "100%", justifyContent: "left" }}
+					size="sm"
+				>
+					Hồ sơ của bạn
+				</Button>
+				<Button
+					onClick={() => {
+						setOpen(false)
+					}}
+					light
+					style={{ width: "100%", justifyContent: "left" }}
+					size="sm"
+				>
+					Cài đặt
+				</Button>
 			</Card.Body>
 			<Card.Divider />
 
 			<Card.Footer>
-				<Button href="/profile">Hồ sơ</Button>
+				<Button
+					onClick={() => {
+						setOpen(false)
+					}}
+					light
+					href="/logout"
+					style={{ width: "100%", justifyContent: "left" }}
+					size="sm"
+					color="error"
+				>
+					Đăng xuất
+				</Button>
 			</Card.Footer>
 		</Card>
 	)

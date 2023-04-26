@@ -3,7 +3,7 @@ import axiosConfig from "./axiosConfig"
 export const profileUser = {
 	getProfile(userId) {
 		const data = { userId }
-		return axiosConfig.get("/Profile", data)
+		return axiosConfig.post("/Profile", data)
 	},
 	checkUser() {
 		return axiosConfig.get("/Profile/check-profile")

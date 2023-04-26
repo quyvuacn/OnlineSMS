@@ -5,7 +5,7 @@ import UploadAvatar from "./UploadAvatar"
 import UserProfile from "./UseProfile"
 const cx = classNames.bind(styles)
 
-function Profile() {
+function Profile({ profile }) {
 	return (
 		<div className={cx("wrap")}>
 			<div
@@ -15,7 +15,7 @@ function Profile() {
 				<UploadAvatar />
 			</div>
 
-			<UserProfile />
+			<UserProfile profile={profile} />
 		</div>
 	)
 }

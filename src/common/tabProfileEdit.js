@@ -6,19 +6,19 @@ export default [
 	{
 		tabName: "Overview",
 		key: "overview",
-		icon: <i class="fa-regular fa-user"></i>,
+		icon: <i className="fa-regular fa-user"></i>,
 		componentContent: <Overview />,
 	},
 	{
 		tabName: "Life events and expertise",
 		key: "fife_events",
-		icon: <i class="fa-regular fa-timeline-arrow"></i>,
+		icon: <i className="fa-regular fa-timeline-arrow"></i>,
 		componentContent: <LifeEvents />,
 	},
 	{
 		tabName: "More",
 		key: "more",
-		icon: <i class="fa-regular fa-circle-info"></i>,
+		icon: <i className="fa-regular fa-circle-info"></i>,
 		componentContent: <More />,
 	},
 ]

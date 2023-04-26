@@ -1,18 +1,18 @@
-import { Text } from "@nextui-org/react"
+import { withRouter } from "next/router"
+
 import Info from "./components/Info"
 import classNames from "classnames/bind"
 import styles from "../profile.module.css"
 import Button from "@/customizeNextUI/nextui-org/Button"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import typeNotification from "@/common/typeNotification"
 import maritals from "@/common/maritals"
 import { profileUser } from "@/api/profileApi"
 import genders from "@/common/gender"
 
 const cx = classNames.bind(styles)
 
-function Overview() {
+function Overview(props) {
 	const [fullName, setFullName] = useState("")
 	const [gender, setGender] = useState("")
 	const [phoneNumber, setPhonenumber] = useState("")
@@ -22,10 +22,12 @@ function Overview() {
 	const [maritalStatus, setMarital] = useState(maritals[0].value)
 
 	const dispatch = useDispatch()
+	const router = props.router
+	const query = router.query
 
 	useEffect(() => {
 		profileUser
-			.getProfile()
+			.getProfile(query?.userId)
 			.then((response) => {
 				const { data } = response
 				const date = new Date(data.dateOfBirth)
@@ -44,8 +46,8 @@ function Overview() {
 			})
 			.catch((error) => {
 				const { data } = error
-				setPhonenumber(data.phoneNumber)
-				setEmail(data.email)
+				setPhonenumber(data?.phoneNumber)
+				setEmail(data?.email)
 				setDateOfBirth("1999-01-01")
 				setGender("male")
 			})
@@ -58,27 +60,35 @@ function Overview() {
 
 	return (
 		<div className={cx("wrap_overview")}>
-			<Info icon={<i class="fa-regular fa-signature"></i>} text={fullName} />
-			<Info icon={<i class="fa-regular fa-venus-mars"></i>} text={gender} />
 			<Info
-				icon={<i class="fa-regular fa-calendar-days"></i>}
+				icon={<i className="fa-regular fa-signature"></i>}
+				text={fullName}
+			/>
+			<Info icon={<i className="fa-regular fa-venus-mars"></i>} text={gender} />
+			<Info
+				icon={<i className="fa-regular fa-calendar-days"></i>}
 				text={dateOfBirth}
 			/>
-			<Info icon={<i class="fa-regular fa-house"></i>} text={address} />
-			<Info icon={<i class="fa-regular fa-phone"></i>} text={phoneNumber} />
-			<Info icon={<i class="fa-regular fa-envelope"></i>} text={email} />
-			<Info icon={<i class="fa-regular fa-heart"></i>} text={maritalStatus} />
-			<Button
-				href="/profile/edit"
-				auto
-				bordered
-				rounded
-				className={cx("btn-edit_overview")}
-			>
-				<i class="fa-regular fa-user-pen"></i>
-			</Button>
+			<Info icon={<i className="fa-regular fa-house"></i>} text={address} />
+			<Info icon={<i className="fa-regular fa-phone"></i>} text={phoneNumber} />
+			<Info icon={<i className="fa-regular fa-envelope"></i>} text={email} />
+			<Info
+				icon={<i className="fa-regular fa-heart"></i>}
+				text={maritalStatus}
+			/>
+			{!query?.userId && (
+				<Button
+					href="/profile/edit"
+					auto
+					bordered
+					rounded
+					className={cx("btn-edit_overview")}
+				>
+					<i className="fa-regular fa-user-pen"></i>
+				</Button>
+			)}
 		</div>
 	)
 }
 
-export default Overview
+export default withRouter(Overview)

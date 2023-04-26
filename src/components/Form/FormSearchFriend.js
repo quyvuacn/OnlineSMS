@@ -1,6 +1,6 @@
 import { Avatar, Card, Input, Popover, Text, Button } from "@nextui-org/react"
 import { useState, useEffect } from "react"
-
+import { getCookies, setCookie, deleteCookie } from "cookies-next"
 import styles from "./form.module.css"
 import classNames from "classnames/bind"
 import friendApi from "@/api/friendApi"
@@ -16,13 +16,27 @@ function FormSearchFriend() {
 			.listFriend()
 			.then((response) => {
 				const { data } = response
-				console.log(data)
 				setFriendOrGroup(data.friends)
 			})
 			.catch((error) => {
 				console.log(error)
 			})
 	}, [])
+
+	const unfriend = (userId) => {
+		const myUserId = getCookies().userId
+		friendApi
+			.unfriend(myUserId, userId)
+			.then((response) => {
+				const updateFriendOrGroup = friendOrGroup.filter(
+					(fg) => fg.userProfile.userId != userId,
+				)
+				setFriendOrGroup(updateFriendOrGroup)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
 
 	return (
 		<div className={cx("wrap_form-search-friend")}>
@@ -37,7 +51,7 @@ function FormSearchFriend() {
 						size="sm"
 						clearable
 						bordered
-						contentLeft={<i class="fa-light fa-magnifying-glass"></i>}
+						contentLeft={<i className="fa-light fa-magnifying-glass"></i>}
 						placeholder="Name or Phonenumber"
 					/>
 				</form>
@@ -67,7 +81,7 @@ function FormSearchFriend() {
 								<Popover placement="bottom-right" offset={0}>
 									<Popover.Trigger>
 										<Button auto animated={false} light>
-											<i class="fa-solid fa-square-info"></i>
+											<i className="fa-solid fa-square-info"></i>
 										</Button>
 									</Popover.Trigger>
 									<Popover.Content
@@ -81,7 +95,13 @@ function FormSearchFriend() {
 											>
 												Xem Thông tin
 											</Link>
-											<button className={cx("info-more")} auto>
+											<button
+												className={cx("info-more")}
+												auto
+												onClick={() => {
+													unfriend(item.userProfile.userId)
+												}}
+											>
 												<Text color="error">Hủy kết bạn</Text>
 											</button>
 										</div>

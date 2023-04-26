@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 import EditOverview from "./Tab/EditOverview"
 const cx = classNames.bind(styles)
 
-function UserProfile() {
+function UserProfile({ profile }) {
 	const router = useRouter()
 
 	const isTabEdit = router.pathname === "/profile/edit"

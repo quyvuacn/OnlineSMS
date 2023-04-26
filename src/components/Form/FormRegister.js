@@ -127,7 +127,7 @@ function FormRegister() {
 				<BaseInput
 					type="email"
 					name="email"
-					contentLeft={<i class="fa-solid fa-envelope"></i>}
+					contentLeft={<i className="fa-solid fa-envelope"></i>}
 					placeholder="Email"
 					action={setEmail}
 				/>

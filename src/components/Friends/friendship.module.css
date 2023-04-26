@@ -4,3 +4,17 @@
 	align-items: center;
 	gap: 40px;
 }
+
+.friendship-accept-item {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin-bottom: 16px;
+}
+.base-info {
+	width: 200px;
+}
+.action {
+	display: flex;
+	gap: 12px;
+}

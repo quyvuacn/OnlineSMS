@@ -8,39 +8,25 @@ import { Text, Avatar, Button } from "@nextui-org/react"
 import friendApi from "@/api/friendApi"
 const cx = classNames.bind(styles)
 
-function FriendshipAcceptItem({ friendAccept, handleFriendAccepts }) {
-	const { userProfile } = friendAccept
-	const ref = useRef()
-
+function FriendshipRequestItem({ friendRequest, handleFriendRequests }) {
+	const { userProfile } = friendRequest
+	console.log(friendRequest)
 	const deleteFriendRequest = () => {
-		const userAcceptId = getCookies().userId
-		const userRequestId = userProfile.userId
+		const userRequestId = getCookies().userId
+		const userAcceptId = userProfile.userId
 
 		friendApi
 			.deleteFriendRequest(userRequestId, userAcceptId)
 			.then(() => {
-				handleFriendAccepts(friendAccept)
+				handleFriendRequests(friendRequest)
 			})
 			.catch((error) => {
 				console.log(error)
 			})
 	}
 
-	const agreeFriend = () => {
-		const userAcceptId = getCookies().userId
-		const userRequestId = userProfile.userId
-
-		friendApi
-			.agreeFriend(userRequestId, userAcceptId)
-			.then(() => {
-				handleFriendAccepts(friendAccept)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-	}
 	return (
-		<div className={cx("friendship-accept-item")} ref={ref}>
+		<div className={cx("friendship-accept-item")}>
 			<Avatar size="lg" src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
 			<div className={cx("base-info")}>
 				<Text b style={{ display: "block" }}>
@@ -51,15 +37,12 @@ function FriendshipAcceptItem({ friendAccept, handleFriendAccepts }) {
 				</Text>
 			</div>
 			<div className={cx("action")}>
-				<Button size="sm" onClick={agreeFriend}>
-					Xác nhận
-				</Button>
 				<Button size="sm" color="error" onClick={deleteFriendRequest}>
-					Từ chối
+					Thu hồi
 				</Button>
 			</div>
 		</div>
 	)
 }
 
-export default FriendshipAcceptItem
+export default FriendshipRequestItem

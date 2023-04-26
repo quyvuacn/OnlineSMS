@@ -80,14 +80,14 @@ function EditOverview() {
 		<from>
 			<InputInfo
 				placeholder="Full Name"
-				icon={<i class="fa-regular fa-signature"></i>}
+				icon={<i className="fa-regular fa-signature"></i>}
 				value={fullName}
 				onChange={(value) => {
 					setFullName(value)
 				}}
 			/>
 			<InputInfo
-				icon={<i class="fa-regular fa-venus-mars"></i>}
+				icon={<i className="fa-regular fa-venus-mars"></i>}
 				value={gender}
 				type="gender"
 				onChange={(value) => {
@@ -96,7 +96,7 @@ function EditOverview() {
 			/>
 			<InputInfo
 				placeholder="Date of Birth"
-				icon={<i class="fa-regular fa-calendar-days"></i>}
+				icon={<i className="fa-regular fa-calendar-days"></i>}
 				value={dateOfBirth}
 				type="date"
 				onChange={(value) => {
@@ -104,7 +104,7 @@ function EditOverview() {
 				}}
 			/>
 			<InputInfo
-				icon={<i class="fa-regular fa-house"></i>}
+				icon={<i className="fa-regular fa-house"></i>}
 				value={address}
 				placeholder="Address"
 				onChange={(value) => {
@@ -112,7 +112,7 @@ function EditOverview() {
 				}}
 			/>
 			<InputInfo
-				icon={<i class="fa-regular fa-phone"></i>}
+				icon={<i className="fa-regular fa-phone"></i>}
 				value={phoneNumber}
 				disabled={true}
 				onChange={(value) => {
@@ -120,7 +120,7 @@ function EditOverview() {
 				}}
 			/>
 			<InputInfo
-				icon={<i class="fa-regular fa-envelope"></i>}
+				icon={<i className="fa-regular fa-envelope"></i>}
 				value={email}
 				disabled={true}
 				onChange={(value) => {
@@ -128,7 +128,7 @@ function EditOverview() {
 				}}
 			/>
 			<InputInfo
-				icon={<i class="fa-regular fa-heart"></i>}
+				icon={<i className="fa-regular fa-heart"></i>}
 				value={maritalStatus}
 				type="marital"
 				onChange={(value) => {

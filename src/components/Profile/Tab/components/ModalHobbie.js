@@ -33,7 +33,7 @@ export default function ModalHobbie({ onSubmit }) {
 	return (
 		<div>
 			<Button auto bordered rounded onPress={handler}>
-				<i class="fa-regular fa-plus"></i>
+				<i className="fa-regular fa-plus"></i>
 			</Button>
 			<Modal
 				closeButton

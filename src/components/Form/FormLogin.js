@@ -6,7 +6,6 @@ import Link from "@/customizeNextUI/nextui-org/Link"
 
 import BaseInput from "./Input/BaseInput"
 import PopoverSelect from "./Input/PopoverSelect"
-import InputVerifyCode from "./Input/InputVerifyCode"
 
 import { setPhoneNumber, setPassword } from "@/redux/actions/actionFormRegister"
 import { AuthAPI } from "@/api/authApi"
@@ -42,7 +41,9 @@ function FormLogin() {
 		AuthAPI.login(data)
 			.then(({ data }) => {
 				dispatch(clearForm())
+				setCookie("userId", data.userId)
 				setCookie("token", data.token)
+				setCookie("connectionId", data.connectionId)
 				router.push("/chat")
 			})
 			.catch((err) => {

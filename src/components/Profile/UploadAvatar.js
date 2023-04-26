@@ -16,7 +16,7 @@ function UploadAvatar() {
 				className={cx("btn-update-avatar")}
 				for="upload-avatar"
 			>
-				<i class="fa-solid fa-pen"></i>
+				<i className="fa-solid fa-pen"></i>
 			</Button>
 			<input type="file" hidden id="upload-avatar" />
 		</div>
