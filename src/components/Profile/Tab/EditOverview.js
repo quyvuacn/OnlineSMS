@@ -22,8 +22,6 @@ function EditOverview() {
 			.getProfile()
 			.then((response) => {
 				const { data } = response
-				console.log(data)
-
 				setPhonenumber(data.phoneNumber)
 				setEmail(data.email)
 				setAddress(data.address)

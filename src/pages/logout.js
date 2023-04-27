@@ -9,6 +9,7 @@ function Logout() {
 		deleteCookie("token")
 		deleteCookie("userId")
 		deleteCookie("connectionId")
+		deleteCookie("session")
 		router.push("/login")
 	}, [])
 	return

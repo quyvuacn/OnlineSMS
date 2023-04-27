@@ -1,12 +1,42 @@
 import classNames from "classnames/bind"
+import { useEffect, useState } from "react"
+import React from "react"
 import { Button } from "@nextui-org/react"
-import { useState } from "react"
 import styles from "./chat.module.css"
 import Textarea from "./Textarea"
+
+import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 const cx = classNames.bind(styles)
 
 function SendMessage() {
 	const [message, setMessage] = useState("")
+	const { connectionHub } = React.useContext(ConnectionHubContext)
+
+	const sendMessage = () => {
+		connectionHub
+			.invoke(
+				"Hello",
+				connectionHub.connectionId,
+				"Đây là 1 tin nhắn" + Date.now().toString(),
+			)
+			.then((response) => {
+				console.log(response)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
+	useEffect(() => {
+		if (connectionHub) {
+			connectionHub.on("Hello", (connectionId, message) => {
+				console.log(`${connectionId}: ${message}`)
+			})
+		}
+		return () => {
+			connectionHub?.off("Hello")
+		}
+	}, [connectionHub])
 
 	return (
 		<div className={cx("send-message")}>
@@ -14,7 +44,7 @@ function SendMessage() {
 			<div className={cx("textarea-wrap")}>
 				<Textarea
 					className={cx("textarea")}
-					onChange={(ev) => {
+					onInput={(ev) => {
 						setMessage(ev.target.value)
 					}}
 					value={message}
@@ -35,6 +65,7 @@ function SendMessage() {
 						auto
 						icon={<i className="fa-solid fa-thumbs-up"></i>}
 						light
+						onClick={sendMessage}
 					></Button>
 				</div>
 			</div>

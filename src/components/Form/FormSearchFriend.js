@@ -57,8 +57,12 @@ function FormSearchFriend() {
 				</form>
 			</div>
 			<div className={cx("listdata")}>
-				{friendOrGroup.map((item) => (
-					<Card css={{ p: "$6", marginBottom: 16 }} variant="bordered">
+				{friendOrGroup.map((item, index) => (
+					<Card
+						css={{ p: "$6", marginBottom: 16 }}
+						variant="bordered"
+						key={index}
+					>
 						<Card.Body css={{ py: "$2" }}>
 							<div className={cx("item-friend")} key={item.id}>
 								<div style={{ display: "flex", alignItems: "center", gap: 20 }}>

@@ -1,6 +1,8 @@
 import parsePhoneNumber from "libphonenumber-js"
 import { Card, Button, Spacer, Text } from "@nextui-org/react"
 import { getCookies, setCookie, deleteCookie } from "cookies-next"
+import md5 from "md5"
+
 import { useDispatch, useSelector } from "react-redux"
 import Link from "@/customizeNextUI/nextui-org/Link"
 
@@ -40,10 +42,12 @@ function FormLogin() {
 
 		AuthAPI.login(data)
 			.then(({ data }) => {
+				const session = md5("session")
 				dispatch(clearForm())
 				setCookie("userId", data.userId)
 				setCookie("token", data.token)
 				setCookie("connectionId", data.connectionId)
+				setCookie("session", session)
 				router.push("/chat")
 			})
 			.catch((err) => {
