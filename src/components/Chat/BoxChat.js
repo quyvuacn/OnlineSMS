@@ -2,9 +2,20 @@ import classNames from "classnames/bind"
 import styles from "./chat.module.css"
 
 import SendMessage from "./SendMessage"
+import MessageItem from "./MessageItem"
 const cx = classNames.bind(styles)
 
-function BoxChat() {
+function BoxChat({ info }) {
+	const { type, name, memberChats, boxchatId } = info
+	const userId = memberChats[0].userId
+
+	let chatName = ""
+	switch (type) {
+		case "Normal":
+			chatName = memberChats[0].fullName
+			break
+	}
+
 	return (
 		<div className={cx("boxchat-wrap")}>
 			<div className={cx("boxchat-header")}>
@@ -13,15 +24,18 @@ function BoxChat() {
 				</div>
 				<div className={cx("boxchat-title")}>
 					<div>
-						<div className={cx("title")}>
-							<b>Quý Vũ</b>
+						<div className={cx("title")} style={{ margin: 0 }}>
+							<b>{chatName}</b>
 						</div>
 						<span className={cx("subtitle")}>Truy cập 5 phút trước</span>
 					</div>
 				</div>
 			</div>
 			<div className={cx("boxchat-main")}>
-				<div className={cx("boxchat-show-message")}>okokok</div>
+				<div className={cx("boxchat-show-message")}>
+					<MessageItem />
+					<MessageItem isYourself={true} />
+				</div>
 				<div className={cx("boxchat-form")}>
 					<div className={cx("boxchat-media")}></div>
 					<SendMessage />

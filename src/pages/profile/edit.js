@@ -1,5 +1,5 @@
 import Search from "@/components/Search"
-import Chat from "@/components/Chat/Chat"
+import Chat from "@/components/Chat/ChatItem"
 import BoxChat from "@/components/Chat/BoxChat"
 import Profile from "@/components/Profile/Profile"
 import MainContent from "@/components/MainContent/MainContent"

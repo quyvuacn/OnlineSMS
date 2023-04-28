@@ -1,40 +1,43 @@
 import classNames from "classnames/bind"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import React from "react"
 import { Button } from "@nextui-org/react"
 import styles from "./chat.module.css"
 import Textarea from "./Textarea"
 
 import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
+import { TaskNames } from "@/services/chatHubService"
 const cx = classNames.bind(styles)
 
 function SendMessage() {
+	const boxChat = useSelector((state) => state.boxChat)
+
 	const [message, setMessage] = useState("")
-	const { connectionHub } = React.useContext(ConnectionHubContext)
+	const { connectionHub } = useContext(ConnectionHubContext)
 
 	const sendMessage = () => {
-		connectionHub
-			.invoke(
-				"Hello",
-				connectionHub.connectionId,
-				"Đây là 1 tin nhắn" + Date.now().toString(),
-			)
-			.then((response) => {
-				console.log(response)
+		if (!message.trim()) {
+			setMessage("")
+		} else {
+			const data = {
+				boxChatId: boxChat.boxChatId,
+				dataMessage: "Vũ Viết Quý",
+			}
+			connectionHub.invoke(TaskNames.SendMessageTo, data, function (isSuccess) {
+				console.log(isSuccess)
 			})
-			.catch((error) => {
-				console.log(error)
-			})
+		}
 	}
 
 	useEffect(() => {
 		if (connectionHub) {
-			connectionHub.on("Hello", (connectionId, message) => {
-				console.log(`${connectionId}: ${message}`)
+			connectionHub.on(TaskNames.ListenMesage, function (data) {
+				console.log(data)
 			})
 		}
 		return () => {
-			connectionHub?.off("Hello")
+			connectionHub.off(TaskNames.ListenMesage)
 		}
 	}, [connectionHub])
 
@@ -44,10 +47,10 @@ function SendMessage() {
 			<div className={cx("textarea-wrap")}>
 				<Textarea
 					className={cx("textarea")}
-					onInput={(ev) => {
+					onChange={(ev) => {
 						setMessage(ev.target.value)
 					}}
-					value={message}
+					message={message}
 					rows={1}
 					placeholder="Nhập tin nhắn ....."
 				/>
@@ -59,14 +62,24 @@ function SendMessage() {
 						icon={<i className="fa-regular fa-face-laugh-wink"></i>}
 						light
 					></Button>
-					<Button
-						tabIndex={-1}
-						color="#cfd2d5"
-						auto
-						icon={<i className="fa-solid fa-thumbs-up"></i>}
-						light
-						onClick={sendMessage}
-					></Button>
+					{message ? (
+						<Button
+							tabIndex={-1}
+							color="#cfd2d5"
+							auto
+							icon={<i className="fa-solid fa-paper-plane-top"></i>}
+							light
+							onClick={sendMessage}
+						></Button>
+					) : (
+						<Button
+							tabIndex={-1}
+							color="#cfd2d5"
+							auto
+							icon={<i className="fa-solid fa-thumbs-up"></i>}
+							light
+						></Button>
+					)}
 				</div>
 			</div>
 		</div>

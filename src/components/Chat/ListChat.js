@@ -1,17 +1,23 @@
 import { useState, useEffect, useContext } from "react"
-import Chat from "./Chat"
+import ChatItem from "./ChatItem"
 import chatApi from "@/api/chatApi"
 import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 
-function ListChat() {
+function ListChat({ handleBoxChatId, presentBoxChatId }) {
 	const { boxChats } = useContext(ConnectionHubContext) || []
 
 	console.log(boxChats)
 	return (
 		<>
-			{/* {boxChats.map((boxChat) => {
-				return <Chat />
-			})} */}
+			{boxChats.map((boxChat) => {
+				return (
+					<ChatItem
+						info={boxChat}
+						handleBoxChatId={handleBoxChatId}
+						presentBoxChatId={presentBoxChatId}
+					/>
+				)
+			})}
 		</>
 	)
 }

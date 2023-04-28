@@ -28,6 +28,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	margin-bottom: 4px;
 }
 
 .message {
@@ -77,14 +78,21 @@
 	position: relative;
 	border-top: 1px solid #ccc;
 	height: calc(100vh - var(--base-height));
+	max-height: calc(100vh - var(--base-height));
+	display: flex;
+	flex-direction: column;
 }
 .boxchat-show-message {
 	padding: 0 16px;
+	width: 100%;
+	flex: 1;
+	overflow-y: scroll;
 }
 .boxchat-form {
-	position: absolute;
-	bottom: 0;
 	width: 100%;
+	background-color: white;
+	position: sticky;
+	bottom: 0;
 }
 .textarea-wrap {
 	display: flex;
@@ -101,6 +109,7 @@
 	line-height: 20px;
 	border: transparent;
 	max-height: calc(28 * 12px);
+	background-color: white;
 }
 
 .send-more-top {
@@ -108,8 +117,25 @@
 }
 .send-more-right {
 	display: flex;
-	align-items: end;
 }
 .send-more-right button i {
 	font-size: 20px;
+}
+/* MessageItem */
+.wrap_message-item {
+	display: flex;
+	gap: 12px;
+}
+.row-reverse {
+	flex-direction: row-reverse;
+}
+.wrap_message-item {
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+.message-item-content + .message-item-content {
+	margin-top: 12px;
+}
+.message-item-content > div {
+	padding: 12px;
 }
