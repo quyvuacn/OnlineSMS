@@ -6,21 +6,21 @@ import { Button } from "@nextui-org/react"
 import styles from "./chat.module.css"
 import Textarea from "./Textarea"
 
-import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
-import { TaskNames } from "@/services/chatHubService"
 const cx = classNames.bind(styles)
 
 function SendMessage({ sendMessageTo }) {
 	const boxChat = useSelector((state) => state.boxChat)
 
 	const [message, setMessage] = useState("")
-	const { connectionHub } = useContext(ConnectionHubContext)
 
 	const sendMessage = () => {
 		if (message.trim()) {
-			sendMessageTo(boxChat.boxChatId, message)
+			sendMessageTo(boxChat.boxchatId, message, (isSuccess) => {
+				if (isSuccess) {
+					setMessage("")
+				}
+			})
 		}
-		setMessage("")
 	}
 
 	const handleTextMessage = (ev) => {
@@ -28,17 +28,6 @@ function SendMessage({ sendMessageTo }) {
 		el.style.height = !!el.value ? el.scrollHeight + "px" : "24px"
 		setMessage(ev.target.value)
 	}
-
-	useEffect(() => {
-		if (connectionHub) {
-			connectionHub.on(TaskNames.ListenMesage, function (data) {
-				console.log(data)
-			})
-		}
-		return () => {
-			connectionHub.off(TaskNames.ListenMesage)
-		}
-	}, [connectionHub])
 
 	return (
 		<div className={cx("send-message")}>

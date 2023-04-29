@@ -6,7 +6,6 @@ import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 function ListChat({ handleBoxChatId, presentBoxChatId }) {
 	const { boxChats, boxChatMessages } = useContext(ConnectionHubContext) || []
 
-	console.log(boxChatMessages)
 	return (
 		<>
 			{boxChats.map((boxChat) => {

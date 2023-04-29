@@ -1,21 +1,29 @@
-import { useEffect, useState, createContext, useCallback } from "react"
-import * as signalR from "@microsoft/signalr"
-import { getCookies, setCookie } from "cookies-next"
+import { useEffect, useState, createContext } from "react"
+import { getCookies, setCookie, deleteCookie } from "cookies-next"
+import { useDispatch, useSelector } from "react-redux"
 import chatApi from "@/api/chatApi"
-import ChatHubService from "@/services/chatHubService"
+import {
+	addBoxChatMessage,
+	updateBoxChatMessage,
+} from "@/redux/reducers/boxChatSlice"
+
+import ChatHubService, { TaskNames } from "@/services/chatHubService"
 
 export const ConnectionHubContext = createContext()
 
 function ConnectionHub({ children }) {
 	const [connectionHub, setConnectionHub] = useState()
 	const [boxChats, setBoxChats] = useState()
-	const [boxChatMessages, setBoxChatMessages] = useState([])
+
+	const boxChatMessages = useSelector((state) => state.boxChat)
+	const dispatch = useDispatch()
 
 	useEffect(() => {
+		let chatHubService = new ChatHubService()
+
 		const start = async () => {
 			try {
 				if (!connectionHub) {
-					const chatHubService = new ChatHubService()
 					await chatHubService.connectionHub.start()
 					setConnectionHub(chatHubService)
 				}
@@ -25,6 +33,7 @@ function ConnectionHub({ children }) {
 					setBoxChats(data)
 				}
 			} catch (error) {
+				chatHubService = new ChatHubService()
 				setTimeout(start, 500)
 			}
 		}
@@ -32,27 +41,51 @@ function ConnectionHub({ children }) {
 		start()
 
 		return () => {
+			setConnectionHub(null)
 			clearTimeout(start)
 		}
 	}, [])
 
-	const crudBoxChatMessages = {
-		create(data) {
-			setBoxChatMessages((b) => {
-				return [...b, data]
+	useEffect(() => {
+		if (connectionHub) {
+			connectionHub.on(TaskNames.ListenMesage, function (data) {
+				crudBoxChatMessages.updateBoxChatMessage(data)
 			})
-		},
-		find(boxChatId) {
-			return boxChatMessages.find((b) => b.boxchatId == boxChatId)
-		},
-		updateBoxChatMessage() {},
-	}
+			return () => {
+				connectionHub.off(TaskNames.ListenMesage)
+			}
+		}
+	}, [connectionHub])
 
-	useEffect(() => {})
+	const crudBoxChatMessages = {
+		addBoxChatMessage(data) {
+			const memberChats =
+				boxChats.find((boxChat) => boxChat.boxchatId == data.boxchatId)
+					?.memberChats || []
+
+			data = {
+				...data,
+				memberChats,
+			}
+			console.log(data)
+			dispatch(addBoxChatMessage(data))
+		},
+		find(boxchatId) {
+			return boxChatMessages[boxchatId]
+		},
+		updateBoxChatMessage(infoMessage) {
+			dispatch(updateBoxChatMessage(infoMessage))
+		},
+	}
 
 	return (
 		<ConnectionHubContext.Provider
-			value={{ connectionHub, boxChats, boxChatMessages, crudBoxChatMessages }}
+			value={{
+				connectionHub,
+				boxChats,
+				boxChatMessages,
+				crudBoxChatMessages,
+			}}
 		>
 			{connectionHub && boxChats && children}
 		</ConnectionHubContext.Provider>

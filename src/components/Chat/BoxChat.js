@@ -1,28 +1,31 @@
 import classNames from "classnames/bind"
 import styles from "./chat.module.css"
 import { useEffect, useState, useContext, useRef } from "react"
+import { getCookies } from "cookies-next"
 import SendMessage from "./SendMessage"
-import MessageItem from "./MessageItem"
+import { useDispatch, useSelector } from "react-redux"
 import { TaskNames } from "@/services/chatHubService"
 import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 import ListMessageItem from "./ListMessageItem"
+import { notify } from "@/redux/reducers/notificationSlice"
+import typeNotification from "@/common/typeNotification"
 const cx = classNames.bind(styles)
 
 function BoxChat({ info }) {
-	const { connectionHub, crudBoxChatMessages } =
-		useContext(ConnectionHubContext)
+	const userId = getCookies()["userId"]
+
+	const { connectionHub } = useContext(ConnectionHubContext)
 
 	const { type, name, memberChats, boxchatId } = info
 
-	const userId = memberChats[0].userId
 	const boxchat = useRef()
 
-	const listMessage = crudBoxChatMessages.find(boxchatId)
-	console.log(listMessage)
+	const dispatch = useDispatch()
+
 	let chatName = ""
 	switch (type) {
 		case "Normal":
-			chatName = memberChats[0].fullName
+			chatName = memberChats.find((m) => m.userId != userId).fullName
 			break
 	}
 
@@ -31,13 +34,24 @@ function BoxChat({ info }) {
 		el.scrollTo(0, el.scrollHeight)
 	})
 
-	const sendMessageTo = (boxChatId, message) => {
+	const sendMessageTo = (boxchatId, message, callback) => {
 		const data = {
-			boxChatId: boxChatId,
+			boxchatId: boxchatId,
 			dataMessage: message,
 		}
+
 		connectionHub.invoke(TaskNames.SendMessageTo, data, function (isSuccess) {
-			console.log(isSuccess)
+			if (typeof callback === "function") {
+				callback(isSuccess)
+			}
+			if (!isSuccess) {
+				dispatch(
+					notify({
+						message: "Tin nhắn chưa được gửi",
+						type: typeNotification.error,
+					}),
+				)
+			}
 		})
 	}
 
@@ -58,7 +72,7 @@ function BoxChat({ info }) {
 			</div>
 			<div className={cx("boxchat-main")}>
 				<div className={cx("boxchat-show-message")} ref={boxchat}>
-					<ListMessageItem boxChatMessages={[1, 2, 3]} />
+					<ListMessageItem boxchatId={boxchatId} />
 				</div>
 				<div className={cx("boxchat-form")}>
 					<div className={cx("boxchat-media")}></div>

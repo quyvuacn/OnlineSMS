@@ -48,7 +48,9 @@ function FormLogin() {
 				setCookie("token", data.token)
 				setCookie("connectionId", data.connectionId)
 				setCookie("session", session)
-				router.push("/chat")
+				setTimeout(() => {
+					router.push("/chat")
+				}, 1500)
 			})
 			.catch((err) => {
 				const message = err.message || "Error!"

@@ -4,9 +4,9 @@ export default {
 	getBoxChats() {
 		return axiosConfig.get("/Boxchat")
 	},
-	getMessages(boxChatId) {
+	getMessages(boxchatId) {
 		const data = {
-			boxChatId,
+			boxchatId,
 		}
 		return axiosConfig.post("/Boxchat/get-messages", data)
 	},

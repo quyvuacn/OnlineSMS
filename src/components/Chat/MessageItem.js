@@ -3,7 +3,7 @@ import styles from "./chat.module.css"
 import { Avatar, Card, Text } from "@nextui-org/react"
 const cx = classNames.bind(styles)
 
-function MessageItem({ isYourself = false }) {
+function MessageItem({ isYourself = false, content }) {
 	return (
 		<div
 			className={cx("wrap_message-item", {
@@ -27,45 +27,7 @@ function MessageItem({ isYourself = false }) {
 					className={cx("message-item-content")}
 				>
 					<Card.Body>
-						<Text>Nay có ở nhà không?</Text>
-					</Card.Body>
-				</Card>
-
-				<Card
-					css={{
-						mw: "400px",
-						width: "fit-content",
-						marginLeft: isYourself ? "auto" : "0",
-						borderRadius: "16px",
-					}}
-					className={cx("message-item-content")}
-				>
-					<Card.Body>
-						<Text>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-							neque reiciendis pariatur amet, maxime odit veritatis deleniti
-							facere mollitia fuga. Qui libero eligendi reiciendis voluptatem.
-							Fugit minus neque inventore labore!
-						</Text>
-					</Card.Body>
-				</Card>
-
-				<Card
-					css={{
-						mw: "400px",
-						width: "fit-content",
-						marginLeft: isYourself ? "auto" : "0",
-						borderRadius: "16px",
-					}}
-					className={cx("message-item-content")}
-				>
-					<Card.Body>
-						<Text>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-							neque reiciendis pariatur amet, maxime odit veritatis deleniti
-							facere mollitia fuga. Qui libero eligendi reiciendis voluptatem.
-							Fugit minus neque inventore labore!
-						</Text>
+						<Text>{content}</Text>
 					</Card.Body>
 				</Card>
 			</div>

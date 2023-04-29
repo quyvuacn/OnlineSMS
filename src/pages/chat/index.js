@@ -10,35 +10,34 @@ import { ConnectionHubContext } from "@/components/ConnectionHub/ConnectionHub"
 import chatApi from "@/api/chatApi"
 
 function Home() {
-	const { boxChats, connectionHub, boxChatMessages, crudBoxChatMessages } =
-		useContext(ConnectionHubContext)
+	const { boxChats, crudBoxChatMessages } = useContext(ConnectionHubContext)
 
 	const boxChat = useSelector((state) => state.boxChat)
 
 	const [boxChatPresent, setBoxChatPresent] = useState(
-		boxChats.find((item) => item.boxChatId == boxChat.boxChatId),
+		boxChats.find((item) => item.boxchatId == boxChat.boxchatId),
 	)
 
 	const dispatch = useDispatch()
 
-	const handleBoxChatId = (boxChatId) => {
+	const handleBoxChatId = (boxchatId) => {
+		if (boxchatId == boxChat.boxchatId) return
+
 		dispatch(
 			setBoxChatId({
-				boxChatId,
+				boxchatId,
 			}),
 		)
-		setBoxChatPresent(
-			boxChats.find((item) => item.boxChatId == boxChat.boxChatId),
-		)
 
-		let listBoxchatMessage = crudBoxChatMessages.find(boxChatId)
+		setBoxChatPresent(boxChats.find((item) => item.boxchatId == boxchatId))
+
+		let listBoxchatMessage = crudBoxChatMessages.find(boxchatId)
 		if (!listBoxchatMessage) {
 			chatApi
-				.getMessages(boxChatId)
+				.getMessages(boxchatId)
 				.then((response) => {
 					const { data } = response
-					crudBoxChatMessages.create(data)
-					console.log(data)
+					crudBoxChatMessages.addBoxChatMessage(data)
 				})
 				.catch((error) => {
 					console.log("error")
@@ -52,11 +51,11 @@ function Home() {
 			<Search>
 				<ListChat
 					handleBoxChatId={handleBoxChatId}
-					presentBoxChatId={boxChat.boxChatId}
+					presentBoxChatId={boxChat.boxchatId}
 				/>
 			</Search>
 			<MainContent>
-				{boxChat.boxChatId && <BoxChat info={boxChatPresent} />}
+				{boxChatPresent && <BoxChat info={boxChatPresent} />}
 			</MainContent>
 		</div>
 	)

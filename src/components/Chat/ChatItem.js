@@ -1,14 +1,16 @@
+import { getCookies } from "cookies-next"
 import classNames from "classnames/bind"
 import styles from "./chat.module.css"
 const cx = classNames.bind(styles)
 
 function ChatItem({ info, handleBoxChatId, presentBoxChatId }) {
+	const userId = getCookies()["userId"]
 	const { type, name, memberChats, boxchatId } = info
 	let chatName = ""
 	let lastMessage = ""
 	switch (type) {
 		case "Normal":
-			chatName = memberChats[0].fullName
+			chatName = memberChats.find((m) => m.userId != userId).fullName
 			lastMessage = `Các bạn đã là bạn bè! Hãy gửi lời chào đến ${chatName}`
 			break
 	}

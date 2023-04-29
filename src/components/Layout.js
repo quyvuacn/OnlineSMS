@@ -12,6 +12,7 @@ import ConnectionHub from "./ConnectionHub/ConnectionHub"
 function Layout({ children }) {
 	const router = useRouter()
 	const dispatch = useDispatch()
+	const isUseConnectionHub = !router.pathname.startsWith("/profile")
 
 	useEffect(() => {
 		if (router.pathname != "/profile/edit") {
@@ -32,11 +33,21 @@ function Layout({ children }) {
 	})
 
 	return (
-		<ConnectionHub>
-			<Notification />
-			<Sidebar />
-			<main id="main">{children}</main>
-		</ConnectionHub>
+		<>
+			{isUseConnectionHub ? (
+				<ConnectionHub>
+					<Notification />
+					<Sidebar />
+					<main id="main">{children}</main>
+				</ConnectionHub>
+			) : (
+				<>
+					<Notification />
+					<Sidebar />
+					<main id="main">{children}</main>
+				</>
+			)}
+		</>
 	)
 }
 

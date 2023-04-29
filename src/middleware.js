@@ -12,9 +12,9 @@ export default async function middleware(req) {
 	if (pathname == "/profile") {
 		return NextResponse.redirect(new URL("/profile/self", req.url))
 	}
-	// if (!token) {
-	// 	return NextResponse.redirect(new URL("/login", req.url))
-	// }
+	if (!token) {
+		return NextResponse.redirect(new URL("/login", req.url))
+	}
 	if (pathname.startsWith("/register")) {
 		return NextResponse.redirect(new URL("/chat", req.url))
 	}
