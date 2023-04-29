@@ -9,7 +9,7 @@ export const ConnectionHubContext = createContext()
 function ConnectionHub({ children }) {
 	const [connectionHub, setConnectionHub] = useState()
 	const [boxChats, setBoxChats] = useState()
-	let sendMessageTo = () => {}
+	const [boxChatMessages, setBoxChatMessages] = useState([])
 
 	useEffect(() => {
 		const start = async () => {
@@ -25,15 +25,35 @@ function ConnectionHub({ children }) {
 					setBoxChats(data)
 				}
 			} catch (error) {
-				console.log(error)
+				setTimeout(start, 500)
 			}
 		}
 
 		start()
+
+		return () => {
+			clearTimeout(start)
+		}
 	}, [])
 
+	const crudBoxChatMessages = {
+		create(data) {
+			setBoxChatMessages((b) => {
+				return [...b, data]
+			})
+		},
+		find(boxChatId) {
+			return boxChatMessages.find((b) => b.boxchatId == boxChatId)
+		},
+		updateBoxChatMessage() {},
+	}
+
+	useEffect(() => {})
+
 	return (
-		<ConnectionHubContext.Provider value={{ connectionHub, boxChats }}>
+		<ConnectionHubContext.Provider
+			value={{ connectionHub, boxChats, boxChatMessages, crudBoxChatMessages }}
+		>
 			{connectionHub && boxChats && children}
 		</ConnectionHubContext.Provider>
 	)

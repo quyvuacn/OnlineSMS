@@ -7,9 +7,11 @@ import ListChat from "@/components/Chat/ListChat"
 import { useDispatch, useSelector } from "react-redux"
 import { setBoxChatId } from "@/redux/reducers/boxChatSlice"
 import { ConnectionHubContext } from "@/components/ConnectionHub/ConnectionHub"
+import chatApi from "@/api/chatApi"
 
 function Home() {
-	const { boxChats, connectionHub } = useContext(ConnectionHubContext)
+	const { boxChats, connectionHub, boxChatMessages, crudBoxChatMessages } =
+		useContext(ConnectionHubContext)
 
 	const boxChat = useSelector((state) => state.boxChat)
 
@@ -28,6 +30,21 @@ function Home() {
 		setBoxChatPresent(
 			boxChats.find((item) => item.boxChatId == boxChat.boxChatId),
 		)
+
+		let listBoxchatMessage = crudBoxChatMessages.find(boxChatId)
+		if (!listBoxchatMessage) {
+			chatApi
+				.getMessages(boxChatId)
+				.then((response) => {
+					const { data } = response
+					crudBoxChatMessages.create(data)
+					console.log(data)
+				})
+				.catch((error) => {
+					console.log("error")
+					console.log(error)
+				})
+		}
 	}
 
 	return (

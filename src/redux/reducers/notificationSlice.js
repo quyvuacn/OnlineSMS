@@ -5,6 +5,7 @@ import typeNotification from "@/common/typeNotification"
 const initialState = {
 	message: null,
 	type: typeNotification.info,
+	showToast: false,
 	time: Date.now(),
 }
 

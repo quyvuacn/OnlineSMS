@@ -4,9 +4,9 @@ import chatApi from "@/api/chatApi"
 import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 
 function ListChat({ handleBoxChatId, presentBoxChatId }) {
-	const { boxChats } = useContext(ConnectionHubContext) || []
+	const { boxChats, boxChatMessages } = useContext(ConnectionHubContext) || []
 
-	console.log(boxChats)
+	console.log(boxChatMessages)
 	return (
 		<>
 			{boxChats.map((boxChat) => {

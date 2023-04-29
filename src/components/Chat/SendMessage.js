@@ -1,5 +1,5 @@
 import classNames from "classnames/bind"
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import React from "react"
 import { Button } from "@nextui-org/react"
@@ -10,24 +10,23 @@ import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 import { TaskNames } from "@/services/chatHubService"
 const cx = classNames.bind(styles)
 
-function SendMessage() {
+function SendMessage({ sendMessageTo }) {
 	const boxChat = useSelector((state) => state.boxChat)
 
 	const [message, setMessage] = useState("")
 	const { connectionHub } = useContext(ConnectionHubContext)
 
 	const sendMessage = () => {
-		if (!message.trim()) {
-			setMessage("")
-		} else {
-			const data = {
-				boxChatId: boxChat.boxChatId,
-				dataMessage: "Vũ Viết Quý",
-			}
-			connectionHub.invoke(TaskNames.SendMessageTo, data, function (isSuccess) {
-				console.log(isSuccess)
-			})
+		if (message.trim()) {
+			sendMessageTo(boxChat.boxChatId, message)
 		}
+		setMessage("")
+	}
+
+	const handleTextMessage = (ev) => {
+		const el = ev.target
+		el.style.height = !!el.value ? el.scrollHeight + "px" : "24px"
+		setMessage(ev.target.value)
 	}
 
 	useEffect(() => {
@@ -47,9 +46,7 @@ function SendMessage() {
 			<div className={cx("textarea-wrap")}>
 				<Textarea
 					className={cx("textarea")}
-					onChange={(ev) => {
-						setMessage(ev.target.value)
-					}}
+					onInput={handleTextMessage}
 					message={message}
 					rows={1}
 					placeholder="Nhập tin nhắn ....."

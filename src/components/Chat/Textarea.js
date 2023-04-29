@@ -6,30 +6,25 @@ const cx = classNames.bind(styles)
 function Textarea({
 	placeholder = "",
 	className,
-	onChange,
+	onInput,
 	rows,
 	cols,
 	message,
 }) {
-	const onInput = (ev) => {
-		onChange(ev)
+	const ref = useRef()
 
-		const el = ev.target
-		console.log(message)
-		const scrollHeight = ev.target.value ? ev.target.scrollHeight : 0
-
-		console.log(scrollHeight)
-		el.setAttribute("style", "height:" + scrollHeight + "px;overflow-y:hidden;")
-		el.style.height = 0
-		el.style.height = el.scrollHeight + "px"
-	}
+	useEffect(() => {
+		const el = ref.current
+		if (!el.value) {
+			el.style.height = "24px"
+		}
+	})
 
 	return (
 		<textarea
+			ref={ref}
 			className={className}
 			onInput={onInput}
-			rows={rows}
-			cols={cols}
 			placeholder={placeholder}
 			value={message}
 		/>
