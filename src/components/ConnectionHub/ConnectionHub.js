@@ -31,10 +31,13 @@ function ConnectionHub({ children }) {
 				if (!boxChats) {
 					const { data } = await chatApi.getBoxChats()
 					setBoxChats(data)
+					console.log(data)
 				}
 			} catch (error) {
 				chatHubService = new ChatHubService()
-				setTimeout(start, 500)
+				setTimeout(() => {
+					start()
+				}, 1500)
 			}
 		}
 
@@ -49,13 +52,33 @@ function ConnectionHub({ children }) {
 	useEffect(() => {
 		if (connectionHub) {
 			connectionHub.on(TaskNames.ListenMesage, function (data) {
+				const { boxchatId } = data
+
+				let boxChatTarget = boxChats.find(
+					(boxChat) => boxChat.boxchatId == boxchatId,
+				)
+				let spliceBoxchats = boxChats.filter(
+					(b) => b.boxchatId != boxChatTarget.boxchatId,
+				)
+				boxChatTarget = {
+					...boxChatTarget,
+					lastMessageContent: data?.content,
+					lastUserSendFullName: data.lastUserSendFullName,
+					lastUserSendId: data.userSendId,
+					startDate: data.startDate,
+				}
+
+				let updateBoxchats = [boxChatTarget, ...spliceBoxchats]
+
+				setBoxChats(updateBoxchats)
+				setUnreadMessages(boxchatId, true)
 				crudBoxChatMessages.updateBoxChatMessage(data)
 			})
 			return () => {
 				connectionHub.off(TaskNames.ListenMesage)
 			}
 		}
-	}, [connectionHub])
+	}, [connectionHub, boxChats])
 
 	const crudBoxChatMessages = {
 		addBoxChatMessage(data) {
@@ -67,7 +90,6 @@ function ConnectionHub({ children }) {
 				...data,
 				memberChats,
 			}
-			console.log(data)
 			dispatch(addBoxChatMessage(data))
 		},
 		find(boxchatId) {
@@ -78,6 +100,34 @@ function ConnectionHub({ children }) {
 		},
 	}
 
+	const setUnreadMessages = (boxchatId, newMessage = false) => {
+		let newBoxchats = []
+		const curentBoxchatId = boxChatMessages.boxchatId
+
+		if (newMessage && curentBoxchatId != boxchatId) {
+			newBoxchats = boxChats.map((b) => {
+				let newB = {
+					...b,
+				}
+				if (newB.boxchatId == boxchatId) {
+					newB.unreadMessages++
+				}
+				return newB
+			})
+		} else {
+			newBoxchats = boxChats.map((b) => {
+				let newB = {
+					...b,
+				}
+				if (newB.boxchatId == boxchatId) {
+					newB.unreadMessages = 0
+				}
+				return newB
+			})
+		}
+		setBoxChats(newBoxchats)
+	}
+
 	return (
 		<ConnectionHubContext.Provider
 			value={{
@@ -85,6 +135,7 @@ function ConnectionHub({ children }) {
 				boxChats,
 				boxChatMessages,
 				crudBoxChatMessages,
+				setUnreadMessages,
 			}}
 		>
 			{connectionHub && boxChats && children}

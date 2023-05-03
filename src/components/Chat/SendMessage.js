@@ -13,11 +13,20 @@ function SendMessage({ sendMessageTo }) {
 
 	const [message, setMessage] = useState("")
 
-	const sendMessage = () => {
-		if (message.trim()) {
+	const sendMessage = (react = false) => {
+		if (react) {
+			sendMessageTo(boxChat.boxchatId, react, (isSuccess) => {
+				if (isSuccess) {
+					setMessage("")
+				}
+			})
+		} else if (message.trim()) {
+			console.log(message.trim())
 			sendMessageTo(boxChat.boxchatId, message, (isSuccess) => {
 				if (isSuccess) {
 					setMessage("")
+				} else {
+					console.log("error")
 				}
 			})
 		}
@@ -55,7 +64,9 @@ function SendMessage({ sendMessageTo }) {
 							auto
 							icon={<i className="fa-solid fa-paper-plane-top"></i>}
 							light
-							onClick={sendMessage}
+							onClick={() => {
+								sendMessage()
+							}}
 						></Button>
 					) : (
 						<Button
@@ -63,6 +74,9 @@ function SendMessage({ sendMessageTo }) {
 							color="#cfd2d5"
 							auto
 							icon={<i className="fa-solid fa-thumbs-up"></i>}
+							onClick={() => {
+								sendMessage(`<i class="fa-solid fa-thumbs-up"></i>`)
+							}}
 							light
 						></Button>
 					)}

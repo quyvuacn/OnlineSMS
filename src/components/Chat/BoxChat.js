@@ -23,6 +23,7 @@ function BoxChat({ info }) {
 	const dispatch = useDispatch()
 
 	let chatName = ""
+	let avatar = memberChats.find((m) => m.userId != userId).avatar
 	switch (type) {
 		case "Normal":
 			chatName = memberChats.find((m) => m.userId != userId).fullName
@@ -59,7 +60,7 @@ function BoxChat({ info }) {
 		<div className={cx("boxchat-wrap")}>
 			<div className={cx("boxchat-header")}>
 				<div className={cx("boxchat-logo")}>
-					<img src="https://i.pravatar.cc/150?u=a04258114e29026702d" alt="" />
+					<img src={avatar ?? "/images/default-avatar.png"} alt="" />
 				</div>
 				<div className={cx("boxchat-title")}>
 					<div>

@@ -2,10 +2,9 @@ import * as signalR from "@microsoft/signalr"
 import { getCookies, setCookie } from "cookies-next"
 import md5 from "md5"
 
-const token = getCookies()["token"]
-
 class ChatHubService {
 	constructor() {
+		const token = getCookies()["token"]
 		this.connectionHub = new signalR.HubConnectionBuilder()
 			.withUrl(`http://localhost:5141/chathub`, {
 				headers: {

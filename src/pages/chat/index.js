@@ -10,7 +10,8 @@ import { ConnectionHubContext } from "@/components/ConnectionHub/ConnectionHub"
 import chatApi from "@/api/chatApi"
 
 function Home() {
-	const { boxChats, crudBoxChatMessages } = useContext(ConnectionHubContext)
+	const { boxChats, crudBoxChatMessages, setUnreadMessages } =
+		useContext(ConnectionHubContext)
 
 	const boxChat = useSelector((state) => state.boxChat)
 
@@ -44,6 +45,15 @@ function Home() {
 					console.log(error)
 				})
 		}
+
+		chatApi
+			.readAllMessagesBoxchat(boxchatId)
+			.then(() => {
+				setUnreadMessages(boxchatId)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
 
 	return (

@@ -12,7 +12,6 @@ function ListMessageItem({ boxchatId }) {
 	const boxChatMessages = useSelector((state) => state.boxChat)
 
 	const listMessage = boxChatMessages[boxchatId]?.listMessage || []
-
 	return (
 		<>
 			{listMessage.map((message) => {
@@ -20,6 +19,7 @@ function ListMessageItem({ boxchatId }) {
 					<MessageItem
 						isYourself={userId == message.userSendId}
 						content={message.content}
+						avatar={message.userAvatar}
 					/>
 				)
 			})}

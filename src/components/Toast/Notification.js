@@ -12,9 +12,6 @@ function Notification() {
 		toast(notification.message, {
 			type: notification.type,
 		})
-		return () => {
-			toast.clearWaitingQueue()
-		}
 	}, [notification])
 
 	return (

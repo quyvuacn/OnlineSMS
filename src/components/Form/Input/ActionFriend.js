@@ -69,7 +69,7 @@ function ActionFriend({
 		}
 	}
 
-	console.log(profile);
+	console.log(profile)
 	return (
 		<>
 			{profile ? (
@@ -78,7 +78,7 @@ function ActionFriend({
 						<img src="https://i.pravatar.cc/150?u=a04258114e29026702d" alt="" />
 						<div>
 							<Text size="$sm">
-								{profile.isYourself ? "Bạn" : profile.fullName}
+								{profile.isYourself ? "You" : profile.fullName}
 							</Text>
 							<Text span size="$xs">
 								{profile.phoneNumber}

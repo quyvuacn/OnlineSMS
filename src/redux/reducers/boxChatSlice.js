@@ -14,7 +14,6 @@ const boxChatSlice = createSlice({
 		},
 		addBoxChatMessage: (state, action) => {
 			const { boxchatId, listMessage } = action.payload
-			console.log(action.payload)
 			return {
 				...state,
 				[boxchatId]: {
@@ -27,7 +26,6 @@ const boxChatSlice = createSlice({
 			const { boxchatId } = action.payload
 
 			const newMessage = action.payload
-
 			return {
 				...state,
 				[boxchatId]: {

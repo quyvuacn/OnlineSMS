@@ -1,11 +1,14 @@
 import Button from "@/customizeNextUI/nextui-org/Button"
 import { Card, Text } from "@nextui-org/react"
+import { useDispatch, useSelector } from "react-redux"
 
 function MenuUser({ setOpen }) {
+	const user = useSelector((state) => state.user)
+
 	return (
 		<Card css={{ w: "280px" }} shadow>
 			<Card.Header>
-				<Text b>Quý Vũ</Text>
+				<Text b>{user.fullName ?? "You"}</Text>
 			</Card.Header>
 			<Card.Divider />
 			<Card.Body css={{ py: "$5" }}>

@@ -1,6 +1,7 @@
 import { Avatar, Popover, Text } from "@nextui-org/react"
 import classNames from "classnames/bind"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -12,6 +13,8 @@ const cx = classNames.bind(styles)
 function Sidebar() {
 	const router = useRouter()
 	const [open, setOpen] = useState(false)
+	const user = useSelector((state) => state.user)
+
 	return (
 		<nav className={cx("wrap")}>
 			<div>
@@ -33,7 +36,7 @@ function Sidebar() {
 								size="lg"
 								as="button"
 								css={{ border: "1px solid #fff" }}
-								src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+								src={user.avatar ?? "/images/default-avatar.png"}
 								tabIndex={-1}
 								onClick={() => {
 									setOpen(!open)

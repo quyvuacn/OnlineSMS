@@ -1,4 +1,4 @@
-import axiosConfig from "./axiosConfig"
+import axiosConfig, { axiosUploadFile } from "./axiosConfig"
 
 export const profileUser = {
 	getProfile(userId) {
@@ -26,5 +26,12 @@ export const profileUser = {
 	},
 	createCuisin(cuisineName) {
 		return axiosConfig.post("/Profile/create-cuisine", { name: cuisineName })
+	},
+	updateAvatar(blobUrl) {
+		const data = {
+			blobUrl,
+		}
+		console.log(data)
+		return axiosConfig.post("/Profile/update-avatar", data)
 	},
 }

@@ -1,9 +1,10 @@
 import classNames from "classnames/bind"
 import styles from "./chat.module.css"
 import { Avatar, Card, Text } from "@nextui-org/react"
+import { createElement } from "react"
 const cx = classNames.bind(styles)
 
-function MessageItem({ isYourself = false, content }) {
+function MessageItem({ isYourself = false, content, avatar }) {
 	return (
 		<div
 			className={cx("wrap_message-item", {
@@ -11,10 +12,7 @@ function MessageItem({ isYourself = false, content }) {
 			})}
 		>
 			<div className="message-item-avatar">
-				<Avatar
-					src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-					size="md"
-				/>
+				<Avatar src={avatar ?? "/images/default-avatar.png"} size="md" />
 			</div>
 			<div className={cx("list-message-item-content")}>
 				<Card
@@ -27,7 +25,7 @@ function MessageItem({ isYourself = false, content }) {
 					className={cx("message-item-content")}
 				>
 					<Card.Body>
-						<Text>{content}</Text>
+						<Text dangerouslySetInnerHTML={{ __html: content }}></Text>
 					</Card.Body>
 				</Card>
 			</div>
