@@ -19,6 +19,7 @@ class MyDocument extends Document {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="stylesheet" href="/fontawesome/css/all.css" />
 					<link rel="icon" href="/favicon.ico" />
+					<script defer src="/js/stringee-web-sdk.min.js" />
 					{CssBaseline.flush()}
 				</Head>
 				<body>

@@ -53,6 +53,7 @@
 	height: var(--base-height);
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .boxchat-logo img {
@@ -133,11 +134,18 @@
 }
 .wrap_message-item {
 	margin-top: 20px;
-	margin-bottom: 40px;
+	margin-bottom: 12px;
 }
 .message-item-content + .message-item-content {
 	margin-top: 12px;
 }
 .message-item-content > div {
 	padding: 12px;
+}
+.call {
+	display: flex;
+	gap: 4px;
+}
+.call button i {
+	font-size: 16px;
 }

@@ -31,7 +31,6 @@ function ConnectionHub({ children }) {
 				if (!boxChats) {
 					const { data } = await chatApi.getBoxChats()
 					setBoxChats(data)
-					console.log(data)
 				}
 			} catch (error) {
 				chatHubService = new ChatHubService()

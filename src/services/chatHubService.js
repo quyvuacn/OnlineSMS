@@ -44,5 +44,7 @@ class ChatHubService {
 export const TaskNames = {
 	SendMessageTo: "SendMessageTo",
 	ListenMesage: "ListenMesage",
+	CallTo: "CallTo",
+	ListenCall: "ListenCall",
 }
 export default ChatHubService

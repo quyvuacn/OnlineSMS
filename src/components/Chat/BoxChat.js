@@ -9,6 +9,9 @@ import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
 import ListMessageItem from "./ListMessageItem"
 import { notify } from "@/redux/reducers/notificationSlice"
 import typeNotification from "@/common/typeNotification"
+import { Button } from "@nextui-org/react"
+import VideoCall from "./Contact/VideoCall"
+import Call from "./Contact/Call"
 const cx = classNames.bind(styles)
 
 function BoxChat({ info }) {
@@ -32,7 +35,7 @@ function BoxChat({ info }) {
 
 	useEffect(() => {
 		const el = boxchat.current
-		el.scrollTo(0, el.scrollHeight)
+		el.scrollTo(0, boxchat.current.scrollTop)
 	})
 
 	const sendMessageTo = (boxchatId, message, callback) => {
@@ -59,16 +62,23 @@ function BoxChat({ info }) {
 	return (
 		<div className={cx("boxchat-wrap")}>
 			<div className={cx("boxchat-header")}>
-				<div className={cx("boxchat-logo")}>
-					<img src={avatar ?? "/images/default-avatar.png"} alt="" />
-				</div>
-				<div className={cx("boxchat-title")}>
-					<div>
-						<div className={cx("title")} style={{ margin: 0 }}>
-							<b>{chatName}</b>
-						</div>
-						<span className={cx("subtitle")}>Truy cập 5 phút trước</span>
+				<div style={{ display: "flex" }}>
+					<div className={cx("boxchat-logo")}>
+						<img src={avatar ?? "/images/default-avatar.png"} alt="" />
 					</div>
+					<div className={cx("boxchat-title")}>
+						<div>
+							<div className={cx("title")} style={{ margin: 0 }}>
+								<b>{chatName}</b>
+							</div>
+							<span className={cx("subtitle")}>Truy cập 5 phút trước</span>
+						</div>
+					</div>
+				</div>
+
+				<div className={cx("call")}>
+					<VideoCall />
+					<Call />
 				</div>
 			</div>
 			<div className={cx("boxchat-main")}>

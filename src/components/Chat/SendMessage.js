@@ -21,7 +21,6 @@ function SendMessage({ sendMessageTo }) {
 				}
 			})
 		} else if (message.trim()) {
-			console.log(message.trim())
 			sendMessageTo(boxChat.boxchatId, message, (isSuccess) => {
 				if (isSuccess) {
 					setMessage("")
