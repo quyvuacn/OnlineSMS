@@ -21,8 +21,6 @@ function ListMessageItem({ boxchatId }) {
 			let dateKey = getFormattedDate(message.startDate)
 
 			if (isToday(startDate)) {
-				console.log(isToday(startDate))
-
 				dateKey = "Hôm nay"
 			}
 			if (isYesterday(startDate)) {

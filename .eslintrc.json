@@ -1,3 +1,6 @@
 {
-  "extends": "next/core-web-vitals"
+	"extends": ["plugin:compat/recommended", "next/core-web-vitals"],
+	"rules": {
+		"compat/compat": "off"
+	}
 }
