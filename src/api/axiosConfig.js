@@ -4,7 +4,9 @@ import { getCookies } from "cookies-next"
 
 const baseAxios = (headers) => {
 	let objBaseAxios = axios.create({
-		baseURL: "http://localhost:5141/api/",
+		// http://192.168.1.8:5141/
+		// http://localhost:5141
+		baseURL: "http://192.168.1.8:5141/api/",
 		headers: {
 			"content-type": "application/json",
 			"Access-Control-Allow-Origin": "*",

@@ -1,0 +1,10 @@
+.wrap {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+.action {
+	gap: 12px;
+	display: flex;
+	margin-left: auto;
+}

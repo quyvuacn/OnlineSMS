@@ -4,9 +4,11 @@ import md5 from "md5"
 
 class ChatHubService {
 	constructor() {
+		// http://192.168.1.8:5141/
+		// http://localhost:5141/
 		const token = getCookies()["token"]
 		this.connectionHub = new signalR.HubConnectionBuilder()
-			.withUrl(`http://localhost:5141/chathub`, {
+			.withUrl(`http://192.168.1.8:5141/chathub`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -46,5 +48,9 @@ export const TaskNames = {
 	ListenMesage: "ListenMesage",
 	CallTo: "CallTo",
 	ListenCall: "ListenCall",
+	PickUp: "PickUp",
+	ListenPickUp: "ListenPickUp",
+	SendRoom: "SendRoom",
+	ListenSendRoom: "ListenSendRoom",
 }
 export default ChatHubService

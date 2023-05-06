@@ -77,8 +77,8 @@ function BoxChat({ info }) {
 				</div>
 
 				<div className={cx("call")}>
-					<VideoCall />
-					<Call />
+					<Call boxchatId={boxchatId} info={info} />
+					<VideoCall boxchatId={boxchatId} info={info} />
 				</div>
 			</div>
 			<div className={cx("boxchat-main")}>

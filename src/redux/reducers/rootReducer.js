@@ -5,6 +5,7 @@ import notificationSlice from "@/redux/reducers/notificationSlice"
 import tabSlice from "@/redux/reducers/tabSlice"
 import boxChatSlice from "@/redux/reducers/boxChatSlice"
 import userSlice from "./userSlice"
+import callingSlice from "./callingSlice"
 
 const rootReducer = combineReducers({
 	formRegister: formRegisterSlice,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
 	tab: tabSlice,
 	boxChat: boxChatSlice,
 	user: userSlice,
+	calling: callingSlice,
 })
 
 export default rootReducer

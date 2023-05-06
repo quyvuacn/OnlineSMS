@@ -7,7 +7,7 @@ export default function Call() {
 			<Button
 				auto
 				light
-				icon={<i class="fa-regular fa-video"></i>}
+				icon={<i class="fa-regular fa-phone"></i>}
 				onPress={() => setVisible(true)}
 			></Button>
 			<Modal

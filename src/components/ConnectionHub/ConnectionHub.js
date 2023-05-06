@@ -8,12 +8,15 @@ import {
 } from "@/redux/reducers/boxChatSlice"
 
 import ChatHubService, { TaskNames } from "@/services/chatHubService"
+import ModalCallTo from "../Chat/Contact/ModalCallTo"
+import { setCallinng } from "@/redux/reducers/callingSlice"
 
 export const ConnectionHubContext = createContext()
 
 function ConnectionHub({ children }) {
 	const [connectionHub, setConnectionHub] = useState()
 	const [boxChats, setBoxChats] = useState()
+	const [showModalCallTo, setShowCallTo] = useState(false)
 
 	const boxChatMessages = useSelector((state) => state.boxChat)
 	const dispatch = useDispatch()
@@ -79,6 +82,19 @@ function ConnectionHub({ children }) {
 		}
 	}, [connectionHub, boxChats])
 
+	useEffect(() => {
+		if (connectionHub) {
+			connectionHub.on(TaskNames.ListenCall, function (data) {
+				console.log(data)
+				setShowCallTo(true)
+				dispatch(setCallinng(data))
+			})
+			return () => {
+				connectionHub.off(TaskNames.ListenCall)
+			}
+		}
+	}, [connectionHub])
+
 	const crudBoxChatMessages = {
 		addBoxChatMessage(data) {
 			const memberChats =
@@ -137,6 +153,15 @@ function ConnectionHub({ children }) {
 				setUnreadMessages,
 			}}
 		>
+			<ModalCallTo
+				isShow={showModalCallTo}
+				hideModalCallTo={() => {
+					setShowCallTo(false)
+				}}
+				showModalCallTo={() => {
+					setShowCallTo(false)
+				}}
+			/>
 			{connectionHub && boxChats && children}
 		</ConnectionHubContext.Provider>
 	)

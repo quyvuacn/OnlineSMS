@@ -25,7 +25,6 @@ class API {
 		)
 
 		const room = response.data
-		console.log({ room })
 		return room
 	}
 
@@ -35,7 +34,6 @@ class API {
 		})
 
 		const rooms = response.data.list
-		console.log({ rooms })
 		return rooms
 	}
 
@@ -49,9 +47,6 @@ class API {
 				headers: this._authHeader(),
 			},
 		)
-
-		console.log({ response })
-
 		return response.data
 	}
 
@@ -97,7 +92,6 @@ class API {
 		)
 
 		const tokens = response.data
-		console.log({ tokens })
 		return tokens
 	}
 
