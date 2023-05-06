@@ -8,9 +8,10 @@ function ListChat({ handleBoxChatId, presentBoxChatId }) {
 
 	return (
 		<>
-			{boxChats.map((boxChat) => {
+			{boxChats.map((boxChat, index) => {
 				return (
 					<ChatItem
+						key={index}
 						info={boxChat}
 						handleBoxChatId={handleBoxChatId}
 						presentBoxChatId={presentBoxChatId}

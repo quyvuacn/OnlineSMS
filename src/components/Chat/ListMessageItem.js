@@ -43,9 +43,10 @@ function ListMessageItem({ boxchatId }) {
 			{dateKeys.map((key) => {
 				return (
 					<>
-						{eventsByDay[key].map((message) => {
+						{eventsByDay[key].map((message, index) => {
 							return (
 								<MessageItem
+									key={index}
 									message={message}
 									isYourself={userId == message.userSendId}
 								/>

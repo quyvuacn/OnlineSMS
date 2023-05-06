@@ -62,6 +62,7 @@ function Friendship() {
 						{friendAccepts.map((friendAccept, index) => {
 							return (
 								<FriendshipAcceptItem
+									key={index}
 									friendAccept={friendAccept}
 									handleFriendAccepts={handleFriendAccepts}
 								/>
@@ -79,6 +80,7 @@ function Friendship() {
 						{friendRequests.map((friendRequest, index) => {
 							return (
 								<FriendshipRequestItem
+									key={index}
 									friendRequest={friendRequest}
 									handleFriendRequests={handleFriendRequests}
 								/>
