@@ -4,6 +4,9 @@ import { getCookies, setCookie, deleteCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import ChatHubService, { TaskNames } from "@/services/chatHubService"
 import VideoCall from "@/components/Chat/Call/VideoCall"
+import { notify } from "@/redux/reducers/notificationSlice"
+import { useDispatch } from "react-redux"
+import typeNotification from "@/common/typeNotification"
 
 function Call() {
 	const router = useRouter()
@@ -15,6 +18,8 @@ function Call() {
 	const [connectionHub, setConnectionHub] = useState()
 	const [start, setStart] = useState(false)
 	const [roomResponse, setRoomResponse] = useState("")
+
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		let chatHubService = new ChatHubService()
@@ -50,14 +55,12 @@ function Call() {
 				boxchatId,
 				type: "Video",
 			}
+
 			connectionHub.invoke(TaskNames.CallTo, data, function (isSuccess) {
 				if (!isSuccess) {
-					dispatch(
-						notify({
-							message: "Chưa thể thực hiện cuộc gọi",
-							type: typeNotification.error,
-						}),
-					)
+					setTimeout(() => {
+						// window.close()
+					}, 1500)
 				} else {
 					console.log("=====================Ok")
 				}

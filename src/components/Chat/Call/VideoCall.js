@@ -8,55 +8,57 @@ function VideoCall({ type, start, startRoom, roomResponse }) {
 	const [roomId, setRoomId] = useState("")
 	const [roomToken, setRoomToken] = useState("")
 	const [callClient, setCallClient] = useState(null)
-
+	const [joined, setJoined] = useState(false)
 	const videoContainerRef = useRef(null)
 
 	const publish = async (screenSharing = false) => {
-		console.log(StringeeVideo.createLocalVideoTrack)
-		const localTrack = await StringeeVideo.createLocalVideoTrack(callClient, {
-			audio: true,
-			video: true,
-			screen: screenSharing,
-			videoDimensions: { width: 640, height: 360 },
-		})
-
-		const videoElement = localTrack.attach()
-		videoContainerRef.current.appendChild(videoElement)
-
-		const roomData = await StringeeVideo.joinRoom(callClient, roomToken)
-		const room = roomData.room
-		console.log({ roomData, room })
-
-		if (!room) {
-			room.clearAllOnMethos()
-			room.on("addtrack", (e) => {
-				const track = e.info.track
-
-				console.log("addtrack", track)
-				if (track.serverId === localTrack.serverId) {
-					console.log("local")
-					return
-				}
-				subscribe(track)
-			})
-			room.on("removetrack", (e) => {
-				const track = e.track
-				if (!track) {
-					return
-				}
-
-				const mediaElements = track.detach()
-				mediaElements.forEach((element) => element.remove())
+		try {
+			console.log("Publishing")
+			const localTrack = await StringeeVideo.createLocalVideoTrack(callClient, {
+				audio: true,
+				video: true,
+				screen: screenSharing,
+				videoDimensions: { width: 640, height: 360 },
 			})
 
-			// Join existing tracks
-			roomData.listTracksInfo.forEach((info) => {
-				subscribe(info)
-			})
+			const videoElement = localTrack.attach()
+			videoContainerRef.current.appendChild(videoElement)
+
+			const roomData = await StringeeVideo.joinRoom(callClient, roomToken)
+			const room = roomData.room
+
+			if (!room) {
+				room.clearAllOnMethos()
+				room.on("addtrack", (e) => {
+					const track = e.info.track
+
+					console.log("addtrack", track)
+					if (track.serverId === localTrack.serverId) {
+						console.log("local")
+						return
+					}
+					subscribe(track)
+				})
+				room.on("removetrack", (e) => {
+					const track = e.track
+					if (!track) {
+						return
+					}
+
+					const mediaElements = track.detach()
+					mediaElements.forEach((element) => element.remove())
+				})
+
+				// Join existing tracks
+				roomData.listTracksInfo.forEach((info) => {
+					subscribe(info)
+				})
+			}
+
+			await room.publish(localTrack)
+		} catch (err) {
+			console.log(err)
 		}
-
-		await room.publish(localTrack)
-		console.log("room publish successful")
 	}
 
 	const createRoom = async () => {
@@ -67,18 +69,13 @@ function VideoCall({ type, start, startRoom, roomResponse }) {
 
 		setRoomId(roomId)
 		setRoomToken(roomToken)
-		await publish()
 	}
 
 	const joinWithId = async (roomId) => {
-		// const roomId = prompt("Dán Room ID vào đây nhé!")
 		if (roomId) {
 			setRoomId(roomId)
-			// get the room token
 			const roomToken = await api.getRoomToken(roomId)
 			setRoomToken(roomToken)
-			// authenticate the user and publish tracks to the room
-			await publish()
 		}
 	}
 
@@ -111,10 +108,19 @@ function VideoCall({ type, start, startRoom, roomResponse }) {
 				createRoom()
 			}
 		}
-		if (type == "join" && roomResponse) {
+		if (type == "join" && roomResponse && !joined) {
 			joinWithId(roomResponse)
+			setJoined(true)
 		}
 	}, [start, roomId, roomResponse])
+
+	useEffect(() => {
+		;(async () => {
+			if (roomToken && roomId) {
+				await publish()
+			}
+		})()
+	}, [roomId, roomToken])
 
 	return (
 		<div>
