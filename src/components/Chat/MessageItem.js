@@ -6,8 +6,8 @@ import { useSelector } from "react-redux"
 const cx = classNames.bind(styles)
 
 function MessageItem({ isYourself = false, message }) {
-	const { content, avatar, startDate, tooltipTime } = message
-
+	const { content, avatar, startDate, tooltipTime, userFullName } = message
+	console.log(message)
 	const formatStartDate = new Date(startDate)
 	const fillStartDate =
 		formatStartDate.getHours().toString().padStart(2, "0") +

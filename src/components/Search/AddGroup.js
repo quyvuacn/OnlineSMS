@@ -30,7 +30,7 @@ function AddGroup() {
 				onClose={closeHandler}
 			>
 				<Modal.Body>
-					<FormAddGroup />
+					<FormAddGroup closeHandler={closeHandler} />
 				</Modal.Body>
 			</Modal>
 		</>

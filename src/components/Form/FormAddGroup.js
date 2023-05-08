@@ -2,7 +2,7 @@ import BaseInput from "./Input/BaseInput"
 import { Card, Button, Spacer, Text, Input, Image } from "@nextui-org/react"
 import { useDispatch, useSelector } from "react-redux"
 import PopoverSelect from "./Input/PopoverSelect"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import SelectCountryState from "./Input/SelectCountryState"
 import styles from "./form.module.css"
 import classNames from "classnames/bind"
@@ -12,10 +12,14 @@ import { responsive } from "@cloudinary/react"
 import ActionGroup from "./Input/ActionGroup"
 import FormSearchFriend from "./FormSearchFriend"
 import chatApi from "@/api/chatApi"
+import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
+import { TaskNames } from "@/services/chatHubService"
+import { notify } from "@/redux/reducers/notificationSlice"
+import typeNotification from "@/common/typeNotification"
 
 const cx = classNames.bind(styles)
 
-function FormAddGroup() {
+function FormAddGroup({ closeHandler }) {
 	const [groupName, setGroupName] = useState("")
 	const [keySearch, setKeySearch] = useState("")
 	const [avatarGroup, setAvatarGroup] = useState("/images/group.png")
@@ -24,6 +28,10 @@ function FormAddGroup() {
 	const [profile, setProfile] = useState()
 	const [members, setMembers] = useState([])
 	const [search, setSearch] = useState("")
+
+	const dispatch = useDispatch()
+
+	const { reloadBoxChats, connectionHub } = useContext(ConnectionHubContext)
 
 	useEffect(() => {
 		friendApi
@@ -57,7 +65,7 @@ function FormAddGroup() {
 			})
 			setViewListFriends(viewListFriends)
 		} else {
-			setProfile(listFriends)
+			setViewListFriends(viewListFriends)
 		}
 	}
 
@@ -109,14 +117,36 @@ function FormAddGroup() {
 			groupName,
 			members: members.map((member) => member.userId),
 		}
-		console.log(data)
+
 		chatApi
 			.createGroup(data)
-			.then((response) => {
-				console.log(response)
+			.then(() => {
+				connectionHub.invoke(
+					TaskNames.ReloadBoxchats,
+					{
+						listUserTargetId: members.map((member) => member.userId),
+					},
+					function (done) {
+						if (done) {
+							dispatch(
+								notify({
+									message: "Tạo nhóm thành công",
+									type: typeNotification.success,
+								}),
+							)
+						}
+						closeHandler()
+						reloadBoxChats()
+					},
+				)
 			})
-			.catch((error) => {
-				console.log(error)
+			.catch(() => {
+				dispatch(
+					notify({
+						message: "Tạo nhóm thất bại",
+						type: typeNotification.error,
+					}),
+				)
 			})
 	}
 	return (

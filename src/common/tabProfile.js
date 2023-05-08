@@ -9,12 +9,12 @@ export default [
 		icon: <i className="fa-regular fa-user"></i>,
 		componentContent: <Overview />,
 	},
-	{
-		tabName: "Life events and expertise",
-		key: "fife_events",
-		icon: <i className="fa-regular fa-timeline-arrow"></i>,
-		componentContent: <LifeEvents />,
-	},
+	// {
+	// 	tabName: "Life events and expertise",
+	// 	key: "fife_events",
+	// 	icon: <i className="fa-regular fa-timeline-arrow"></i>,
+	// 	componentContent: <LifeEvents />,
+	// },
 	{
 		tabName: "More",
 		key: "more",

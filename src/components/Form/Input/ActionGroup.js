@@ -5,7 +5,6 @@ import classNames from "classnames/bind"
 const cx = classNames.bind(styles)
 
 function ActionGroup({ info, addMember, removeMember }) {
-	console.log(info)
 	return (
 		<div className={cx("wrap_userResult")}>
 			<div className={cx("userResult_info")}>

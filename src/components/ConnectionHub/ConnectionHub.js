@@ -20,7 +20,6 @@ function ConnectionHub({ children }) {
 	const [showCallTo, setShowCallTo] = useState(false)
 
 	const boxChatMessages = useSelector((state) => state.boxChat)
-	const calling = useSelector((state) => state.calling)
 
 	const dispatch = useDispatch()
 
@@ -59,31 +58,58 @@ function ConnectionHub({ children }) {
 		if (connectionHub) {
 			connectionHub.on(TaskNames.ListenMesage, function (data) {
 				const { boxchatId } = data
-				console.log(data)
+				const currentBoxchatId = boxChatMessages.boxchatId
+
 				let boxChatTarget = boxChats.find(
 					(boxChat) => boxChat.boxchatId == boxchatId,
 				)
-				let spliceBoxchats = boxChats.filter(
-					(b) => b.boxchatId != boxChatTarget.boxchatId,
-				)
-				boxChatTarget = {
-					...boxChatTarget,
-					lastMessageContent: data?.content,
-					lastUserSendFullName: data.lastUserSendFullName,
-					lastUserSendId: data.userSendId,
-					startDate: data.startDate,
+				console.log(boxChatTarget)
+
+				if (boxChatTarget) {
+					let spliceBoxchats = boxChats.filter((b) => b.boxchatId != boxchatId)
+					let listBoxchatMessage = crudBoxChatMessages.find(boxchatId)
+					let unreadMessages = boxChatTarget.unreadMessages
+						? boxChatTarget.unreadMessages
+						: 0
+
+					boxChatTarget = {
+						...boxChatTarget,
+						lastMessageContent: data?.content,
+						lastUserSendFullName: data.lastUserSendFullName,
+						lastUserSendId: data.userSendId,
+						startDate: data.startDate,
+						unreadMessages: unreadMessages + 1,
+					}
+
+					if (boxchatId == currentBoxchatId) {
+						boxChatTarget.unreadMessages = 0
+					}
+
+					let updateBoxchats = [boxChatTarget, ...spliceBoxchats]
+
+					if (!listBoxchatMessage) {
+						chatApi
+							.getMessages(boxchatId)
+							.then((response) => {
+								const { data } = response
+								crudBoxChatMessages.addBoxChatMessage(data)
+								setUnreadMessages(boxchatId, true)
+								setBoxChats(updateBoxchats)
+							})
+							.catch((error) => {
+								console.log("error")
+								console.log(error)
+							})
+					} else {
+						crudBoxChatMessages.updateBoxChatMessage(data)
+						setUnreadMessages(boxchatId, true)
+
+						setBoxChats(updateBoxchats)
+					}
 				}
-
-				let updateBoxchats = [boxChatTarget, ...spliceBoxchats]
-
-				console.log(updateBoxchats)
-
-				crudBoxChatMessages.updateBoxChatMessage(data)
-				setUnreadMessages(boxchatId, true)
-
-				setBoxChats(updateBoxchats)
 			})
 			connectionHub.on(TaskNames.ListenReloadBoxchats, function (data) {
+				console.log(data)
 				reloadBoxChats()
 			})
 			return () => {

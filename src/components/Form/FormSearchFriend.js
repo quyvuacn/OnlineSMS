@@ -20,6 +20,7 @@ function FormSearchFriend() {
 				const { data } = response
 				setFriendOrGroup(data.friends)
 				setViewFriends(data.friends)
+				console.log(data.friends)
 			})
 			.catch((error) => {
 				console.log(error)
@@ -88,7 +89,9 @@ function FormSearchFriend() {
 								<div style={{ display: "flex", alignItems: "center", gap: 20 }}>
 									<div>
 										<Avatar
-											src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+											src={
+												item.userProfile.avatar || "/images/default-avatar.png"
+											}
 											size="lg"
 										/>
 									</div>
