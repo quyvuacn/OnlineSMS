@@ -12,6 +12,7 @@
 /* wrap_userResult */
 .wrap_userResult {
 	height: 72px;
+	width: 100%;
 	padding: 12px 0;
 	display: flex;
 	align-items: center;
@@ -62,4 +63,19 @@
 	border: none;
 	cursor: pointer;
 	padding: 4px 0;
+}
+/* wrap_info_group */
+.wrap_info_group {
+	display: flex;
+	gap: 12px;
+}
+.avatar-gropup {
+	border: 2px solid #ccc;
+	border-radius: 50%;
+}
+.list_member {
+	padding-right: 4px;
+	max-height: 160px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }

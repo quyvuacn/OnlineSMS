@@ -1,13 +1,13 @@
 const { default: axios } = require("axios")
 
-const PROJECT_ID = "SK.0.FQjH1Ku4KPam2NJTyVK008k24kY24Mv"
-const PROJECT_SECRET = "Rmc1UDVTVHRiTUpCSHdMd05aQXZTZDEwb0pjNlBDSk4="
+const PROJECT_ID = "SK.0.U8xetg0hfMDe7Gi6U1ATyv8rU0cyqi"
+const PROJECT_SECRET = "R0V1T0ZCbjZyenR5Q2dkTkg4OEcySzVCdG9iT1FmUG4="
 const BASE_URL = "https://api.stringee.com/v1/room2"
 
 class API {
-	constructor(projectId, projectSecret) {
-		this.projectId = projectId
-		this.projectSecret = projectSecret
+	constructor() {
+		this.projectId = PROJECT_ID
+		this.projectSecret = PROJECT_SECRET
 		this.restToken = ""
 	}
 
@@ -107,4 +107,4 @@ class API {
 	}
 }
 
-export default new API(PROJECT_ID, PROJECT_SECRET)
+export default API

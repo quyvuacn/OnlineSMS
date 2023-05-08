@@ -31,7 +31,18 @@ function ChatItem({ info, handleBoxChatId, presentBoxChatId }) {
 			} else {
 				lastMessageContent = `Các bạn đã là bạn bè! Hãy gửi lời chào đến ${chatName}`
 			}
-
+			break
+		case "Group":
+			chatName = name
+			avatar = info.avatar
+			if (lastUserSendId) {
+				lastMessageContent =
+					(userId == lastUserSendId ? "You" : lastUserSendFullName) +
+					" : " +
+					lastMessageContent
+			} else {
+				lastMessageContent = `Nhóm đã được tạo! Hãy gửi lời chào đến nhóm`
+			}
 			break
 	}
 

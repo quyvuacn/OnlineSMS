@@ -67,7 +67,7 @@ function Sidebar() {
 					>
 						<i className="fa-light fa-book-user"></i>
 					</Link>
-					<Link
+					{/* <Link
 						href={"/todos"}
 						className={cx(
 							{ active: router.pathname == "/todos" },
@@ -75,11 +75,11 @@ function Sidebar() {
 						)}
 					>
 						<i className="fa-light fa-square-check"></i>
-					</Link>
+					</Link> */}
 				</div>
 			</div>
 			<div className={cx("tab-bottom")}>
-				<Link
+				{/* <Link
 					href={"/cloud"}
 					className={cx(
 						{ active: router.pathname == "/cloud" },
@@ -87,7 +87,7 @@ function Sidebar() {
 					)}
 				>
 					<i className="fa-light fa-cloud"></i>
-				</Link>
+				</Link> */}
 				<Popover isBordered disableShadow placement="top-left" offset={0}>
 					<Popover.Trigger>
 						<div className={cx("tab-top-item")} style={{ cursor: "pointer" }}>

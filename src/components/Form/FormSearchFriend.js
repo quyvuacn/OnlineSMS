@@ -9,7 +9,9 @@ const cx = classNames.bind(styles)
 
 function FormSearchFriend() {
 	const [friendOrGroup, setFriendOrGroup] = useState([])
-	const [open, setOpen] = useState(true)
+	const [viewFriends, setViewFriends] = useState([])
+
+	const [search, setSearch] = useState("")
 
 	useEffect(() => {
 		friendApi
@@ -17,11 +19,28 @@ function FormSearchFriend() {
 			.then((response) => {
 				const { data } = response
 				setFriendOrGroup(data.friends)
+				setViewFriends(data.friends)
 			})
 			.catch((error) => {
 				console.log(error)
 			})
 	}, [])
+
+	const handleSearch = (ev) => {
+		const search = ev.target.value
+		setSearch(search)
+
+		if (search) {
+			const viewListFriends = friendOrGroup.filter((friend) => {
+				let { fullName, phoneNumber } = friend.userProfile
+				fullName = fullName.toLowerCase()
+				return fullName.includes(search) || phoneNumber.includes(search)
+			})
+			setViewFriends(viewListFriends)
+		} else {
+			setViewFriends(friendOrGroup)
+		}
+	}
 
 	const unfriend = (userId) => {
 		const myUserId = getCookies().userId
@@ -53,11 +72,12 @@ function FormSearchFriend() {
 						bordered
 						contentLeft={<i className="fa-light fa-magnifying-glass"></i>}
 						placeholder="Name or Phonenumber"
+						onChange={handleSearch}
 					/>
 				</form>
 			</div>
 			<div className={cx("listdata")}>
-				{friendOrGroup.map((item, index) => (
+				{viewFriends.map((item, index) => (
 					<Card
 						css={{ p: "$6", marginBottom: 16 }}
 						variant="bordered"

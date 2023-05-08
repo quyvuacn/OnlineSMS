@@ -10,7 +10,9 @@ function MessageItem({ isYourself = false, message }) {
 
 	const formatStartDate = new Date(startDate)
 	const fillStartDate =
-		formatStartDate.getHours() + ":" + formatStartDate.getMinutes()
+		formatStartDate.getHours().toString().padStart(2, "0") +
+		":" +
+		formatStartDate.getMinutes().toString().padStart(2, "0")
 
 	return (
 		<div

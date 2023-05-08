@@ -1,0 +1,32 @@
+.title {
+	width: 100%;
+}
+.wrap {
+	padding: 20px 12px;
+	position: relative;
+	width: 100vw;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.wrap video {
+	order: 2;
+	width: 25%;
+	border: 2 px solid #ccc;
+	padding: 12px;
+}
+.wrap .subject {
+	order: 1;
+	width: calc(75% - 40px);
+	padding: 12px;
+}
+
+.wrap .action {
+	order: 0;
+	width: 40px;
+	padding-top: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}

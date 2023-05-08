@@ -10,9 +10,12 @@ const userSlice = createSlice({
 				...action.payload,
 			}
 		},
+		setUserDefault: (state, action) => {
+			return {}
+		},
 	},
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, setUserDefault } = userSlice.actions
 
 export default userSlice.reducer

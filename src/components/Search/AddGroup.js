@@ -1,7 +1,9 @@
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react"
 import { useState } from "react"
+import FormAddFriend from "../Form/FormAddFriend"
+import FormAddGroup from "../Form/FormAddGroup"
 
-function AddFriend() {
+function AddGroup() {
 	const [visible, setVisible] = useState(false)
 	const handler = () => setVisible(true)
 
@@ -15,7 +17,7 @@ function AddFriend() {
 				tabIndex={-1}
 				color="#cfd2d5"
 				auto
-				icon={<i className="fa-light fa-users-medical"></i>}
+				icon={<i class="fa-light fa-users-medical"></i>}
 				light
 				onPress={handler}
 			></Button>
@@ -28,21 +30,11 @@ function AddFriend() {
 				onClose={closeHandler}
 			>
 				<Modal.Body>
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
+					<FormAddGroup />
 				</Modal.Body>
 			</Modal>
 		</>
 	)
 }
 
-export default AddFriend
+export default AddGroup

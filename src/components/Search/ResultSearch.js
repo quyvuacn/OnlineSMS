@@ -6,9 +6,9 @@ const cx = classNames.bind(styles)
 function ResultSearch() {
 	return (
 		<div className={cx("result-seach")}>
-			<Text b size="$sm">
+			{/* <Text b size="$sm">
 				Tìm kiếm gần đây
-			</Text>
+			</Text> */}
 			<div className={cx("list-result")}></div>
 		</div>
 	)

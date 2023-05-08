@@ -16,9 +16,12 @@ export const ConnectionHubContext = createContext()
 function ConnectionHub({ children }) {
 	const [connectionHub, setConnectionHub] = useState()
 	const [boxChats, setBoxChats] = useState()
-	const [showModalCallTo, setShowCallTo] = useState(false)
+
+	const [showCallTo, setShowCallTo] = useState(false)
 
 	const boxChatMessages = useSelector((state) => state.boxChat)
+	const calling = useSelector((state) => state.calling)
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -35,6 +38,7 @@ function ConnectionHub({ children }) {
 					const { data } = await chatApi.getBoxChats()
 					setBoxChats(data)
 				}
+				console.log("Connected")
 			} catch (error) {
 				chatHubService = new ChatHubService()
 				setTimeout(() => {
@@ -55,7 +59,7 @@ function ConnectionHub({ children }) {
 		if (connectionHub) {
 			connectionHub.on(TaskNames.ListenMesage, function (data) {
 				const { boxchatId } = data
-
+				console.log(data)
 				let boxChatTarget = boxChats.find(
 					(boxChat) => boxChat.boxchatId == boxchatId,
 				)
@@ -72,12 +76,19 @@ function ConnectionHub({ children }) {
 
 				let updateBoxchats = [boxChatTarget, ...spliceBoxchats]
 
-				setBoxChats(updateBoxchats)
-				setUnreadMessages(boxchatId, true)
+				console.log(updateBoxchats)
+
 				crudBoxChatMessages.updateBoxChatMessage(data)
+				setUnreadMessages(boxchatId, true)
+
+				setBoxChats(updateBoxchats)
+			})
+			connectionHub.on(TaskNames.ListenReloadBoxchats, function (data) {
+				reloadBoxChats()
 			})
 			return () => {
 				connectionHub.off(TaskNames.ListenMesage)
+				connectionHub.off(TaskNames.ListenReloadBoxchats)
 			}
 		}
 	}, [connectionHub, boxChats])
@@ -85,10 +96,10 @@ function ConnectionHub({ children }) {
 	useEffect(() => {
 		if (connectionHub) {
 			connectionHub.on(TaskNames.ListenCall, function (data) {
-				console.log(data)
 				setShowCallTo(true)
 				dispatch(setCallinng(data))
 			})
+
 			return () => {
 				connectionHub.off(TaskNames.ListenCall)
 			}
@@ -143,6 +154,11 @@ function ConnectionHub({ children }) {
 		setBoxChats(newBoxchats)
 	}
 
+	const reloadBoxChats = async () => {
+		const { data } = await chatApi.getBoxChats()
+		setBoxChats(data)
+	}
+
 	return (
 		<ConnectionHubContext.Provider
 			value={{
@@ -151,17 +167,19 @@ function ConnectionHub({ children }) {
 				boxChatMessages,
 				crudBoxChatMessages,
 				setUnreadMessages,
+				reloadBoxChats,
 			}}
 		>
-			<ModalCallTo
-				isShow={showModalCallTo}
-				hideModalCallTo={() => {
-					setShowCallTo(false)
-				}}
-				showModalCallTo={() => {
-					setShowCallTo(false)
-				}}
-			/>
+			{showCallTo && (
+				<ModalCallTo
+					isShow={showCallTo}
+					hideModalCallTo={() => {
+						dispatch(setCallinng({}))
+						setShowCallTo(false)
+					}}
+				/>
+			)}
+
 			{connectionHub && boxChats && children}
 		</ConnectionHubContext.Provider>
 	)

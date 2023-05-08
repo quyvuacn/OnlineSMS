@@ -16,4 +16,8 @@ export default {
 		}
 		return axiosConfig.post("/Boxchat/read-all-messages", data)
 	},
+	createGroup({ avatar, groupName, members = [] }) {
+		const data = { avatar, groupName, members }
+		return axiosConfig.post("/Boxchat/create-group", data)
+	},
 }

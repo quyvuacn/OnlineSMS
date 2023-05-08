@@ -29,7 +29,8 @@ class ChatHubService {
 					callback(true)
 				}
 			})
-			.catch(() => {
+			.catch((e) => {
+				console.log(e)
 				if (typeof callback === "function") {
 					callback(false)
 				}
@@ -49,5 +50,9 @@ export const TaskNames = {
 	ListenPickUp: "ListenPickUp",
 	SendRoom: "SendRoom",
 	ListenSendRoom: "ListenSendRoom",
+	Cancel: "Cancel",
+	ListenCancel: "ListenCancel",
+	ReloadBoxchats: "ReloadBoxchats",
+	ListenReloadBoxchats: "ListenReloadBoxchats",
 }
 export default ChatHubService

@@ -20,7 +20,6 @@ function BoxChat({ info }) {
 	const { connectionHub } = useContext(ConnectionHubContext)
 
 	const { type, name, memberChats, boxchatId } = info
-
 	const boxchat = useRef()
 
 	const dispatch = useDispatch()
@@ -30,6 +29,10 @@ function BoxChat({ info }) {
 	switch (type) {
 		case "Normal":
 			chatName = memberChats.find((m) => m.userId != userId).fullName
+			break
+		case "Group":
+			chatName = name
+			avatar = info.avatar
 			break
 	}
 
@@ -71,7 +74,7 @@ function BoxChat({ info }) {
 							<div className={cx("title")} style={{ margin: 0 }}>
 								<b>{chatName}</b>
 							</div>
-							<span className={cx("subtitle")}>Truy cập 5 phút trước</span>
+							<span className={cx("subtitle")}>Chat</span>
 						</div>
 					</div>
 				</div>

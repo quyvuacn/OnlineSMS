@@ -75,7 +75,7 @@ function ActionFriend({
 			{profile ? (
 				<>
 					<div className={cx("userResult_info")}>
-						<img src="https://i.pravatar.cc/150?u=a04258114e29026702d" alt="" />
+						<img src={profile.avatar || "/images/default-avatar.png"} alt="" />
 						<div>
 							<Text size="$sm">
 								{profile.isYourself ? "You" : profile.fullName}

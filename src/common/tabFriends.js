@@ -8,12 +8,12 @@ const tab = [
 		icon: <i className="fa-light fa-user"></i>,
 		componentContent: <Friends />,
 	},
-	{
-		tabName: "Danh sách nhóm",
-		key: "groups",
-		icon: <i className="fa-light fa-users"></i>,
-		componentContent: <Friends />,
-	},
+	// {
+	// 	tabName: "Danh sách nhóm",
+	// 	key: "groups",
+	// 	icon: <i className="fa-light fa-users"></i>,
+	// 	componentContent: <Friends />,
+	// },
 	{
 		tabName: "Kết bạn",
 		key: "friendship",

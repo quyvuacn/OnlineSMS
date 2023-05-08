@@ -5,7 +5,6 @@ const callingSlice = createSlice({
 	initialState: null,
 	reducers: {
 		setCallinng(state, action) {
-			console.log(action.payload)
 			return action.payload
 		},
 	},

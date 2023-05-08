@@ -1,16 +1,20 @@
 import BaseContent from "./BaseContent"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useContext } from "react"
 import { getCookies, setCookie, deleteCookie } from "cookies-next"
 
 import classNames from "classnames/bind"
 import styles from "./friendship.module.css"
 import { Text, Avatar, Button } from "@nextui-org/react"
 import friendApi from "@/api/friendApi"
+import { ConnectionHubContext } from "../ConnectionHub/ConnectionHub"
+import { TaskNames } from "@/services/chatHubService"
 const cx = classNames.bind(styles)
 
 function FriendshipAcceptItem({ friendAccept, handleFriendAccepts }) {
 	const { userProfile } = friendAccept
 	const ref = useRef()
+
+	const { reloadBoxChats, connectionHub } = useContext(ConnectionHubContext)
 
 	const deleteFriendRequest = () => {
 		const userAcceptId = getCookies().userId
@@ -33,7 +37,20 @@ function FriendshipAcceptItem({ friendAccept, handleFriendAccepts }) {
 		friendApi
 			.agreeFriend(userRequestId, userAcceptId)
 			.then(() => {
+				const data = {
+					userTargetId: userRequestId,
+				}
 				handleFriendAccepts(friendAccept)
+				connectionHub.invoke(
+					TaskNames.ReloadBoxchats,
+					data,
+					function (isSuccess) {
+						if (isSuccess) {
+							console.log("ReloadBoxchats", data)
+						}
+					},
+				)
+				reloadBoxChats()
 			})
 			.catch((error) => {
 				console.log(error)
