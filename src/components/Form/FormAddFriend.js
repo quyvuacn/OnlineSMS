@@ -15,6 +15,7 @@ function FormAddFriend() {
 	const [profile, setProfile] = useState(null)
 
 	const [disabledBtn, setDisabledBtn] = useState(false)
+	const [disabledContact, setDisabledContact] = useState(false)
 
 	const onSearch = (formatPhonenumber) => {
 		setDisabledBtn(true)
@@ -105,6 +106,8 @@ function FormAddFriend() {
 				console.log(error)
 			})
 	}
+	const contactMessage = (userId) => {}
+
 	return (
 		<>
 			<Text id="modal-title" size={18} style={{ textAlign: "center" }}>
@@ -121,6 +124,8 @@ function FormAddFriend() {
 					unfriend={unfriend}
 					agreeFriend={agreeFriend}
 					disabledBtn={disabledBtn}
+					contactMessage={contactMessage}
+					disabledContact={disabledContact}
 				/>
 			</div>
 		</>

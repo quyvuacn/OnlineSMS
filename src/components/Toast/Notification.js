@@ -18,7 +18,7 @@ function Notification() {
 		<>
 			<ToastContainer
 				position="top-right"
-				autoClose={1000}
+				autoClose={450}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick

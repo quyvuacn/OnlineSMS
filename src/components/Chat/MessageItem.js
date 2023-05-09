@@ -21,7 +21,14 @@ function MessageItem({ isYourself = false, message }) {
 			})}
 		>
 			<div className="message-item-avatar">
-				<Avatar src={avatar ?? "/images/default-avatar.png"} size="md" />
+				<Tooltip
+					content={isYourself ? "You" : userFullName}
+					rounded
+					color="primary"
+					placement={"top"}
+				>
+					<Avatar src={avatar ?? "/images/default-avatar.png"} size="md" />
+				</Tooltip>
 			</div>
 			<div className={cx("list-message-item-content")}>
 				<Tooltip

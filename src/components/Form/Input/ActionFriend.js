@@ -11,21 +11,25 @@ function ActionFriend({
 	unfriend,
 	disabledBtn,
 	agreeFriend,
+	contactMessage,
+	disabledContact,
 }) {
 	let BtnAction = <></>
 
 	if (profile && !profile.isYourself) {
 		if (profile.status == 2) {
 			BtnAction = (
-				<Button
-					auto
-					className={cx("add-friend")}
-					size="sm"
-					onClick={sendFriendInvitations}
-					disabled={disabledBtn}
-				>
-					Add friend
-				</Button>
+				<>
+					<Button
+						auto
+						className={cx("add-friend")}
+						size="sm"
+						onClick={sendFriendInvitations}
+						disabled={disabledBtn}
+					>
+						Add friend
+					</Button>
+				</>
 			)
 		} else if (profile.status == 0) {
 			BtnAction = (
