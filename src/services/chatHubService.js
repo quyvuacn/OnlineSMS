@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr"
-import { getCookies, setCookie } from "cookies-next"
+import { getCookies } from "cookies-next"
 
 class ChatHubService {
 	constructor() {
@@ -8,7 +8,9 @@ class ChatHubService {
 			.withUrl(process.env.NEXT_PUBLIC_API_CHATHUB_URL, {
 				headers: {
 					Authorization: `Bearer ${token}`,
+					Session: getCookies()["session"],
 				},
+				withCredentials: true,
 			})
 			.build()
 	}

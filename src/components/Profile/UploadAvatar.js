@@ -15,7 +15,10 @@ function UploadAvatar() {
 	const router = useRouter()
 
 	console.log(router)
-	const isSelf = router.query?.userId == "self" || router.pathname == "/profile"
+	const isSelf =
+		router.query?.userId == "self" ||
+		router.query?.userId == "edit" ||
+		router.pathname == "/profile"
 
 	const [file, setFile] = useState()
 	const [openModalCrop, setOpenmodalCrop] = useState(false)

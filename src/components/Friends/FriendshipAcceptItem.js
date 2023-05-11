@@ -58,7 +58,10 @@ function FriendshipAcceptItem({ friendAccept, handleFriendAccepts }) {
 	}
 	return (
 		<div className={cx("friendship-accept-item")} ref={ref}>
-			<Avatar size="lg" src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+			<Avatar
+				size="lg"
+				src={userProfile.avatar ?? "/images/default-avatar.png"}
+			/>
 			<div className={cx("base-info")}>
 				<Text b style={{ display: "block" }}>
 					{userProfile.fullName}

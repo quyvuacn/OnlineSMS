@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 const cx = classNames.bind(styles)
 
 function MessageItem({ isYourself = false, message }) {
-	const { content, avatar, startDate, tooltipTime, userFullName } = message
+	const { content, userAvatar, startDate, tooltipTime, userFullName } = message
 	console.log(message)
 	const formatStartDate = new Date(startDate)
 	const fillStartDate =
@@ -27,7 +27,7 @@ function MessageItem({ isYourself = false, message }) {
 					color="primary"
 					placement={"top"}
 				>
-					<Avatar src={avatar ?? "/images/default-avatar.png"} size="md" />
+					<Avatar src={userAvatar ?? "/images/default-avatar.png"} size="md" />
 				</Tooltip>
 			</div>
 			<div className={cx("list-message-item-content")}>

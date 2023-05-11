@@ -3,7 +3,7 @@ const nextConfig = {
 	skipMiddlewareUrlNormalize: true,
 	devServer: {
 		https: true,
-		host: "192.168.1.8",
+		host: "10.1.26.197",
 		port: 3000,
 	},
 }

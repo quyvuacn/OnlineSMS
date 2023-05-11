@@ -1,8 +1,8 @@
 const { default: axios } = require("axios")
 
-const PROJECT_ID = "SK.0.U8xetg0hfMDe7Gi6U1ATyv8rU0cyqi"
-const PROJECT_SECRET = "R0V1T0ZCbjZyenR5Q2dkTkg4OEcySzVCdG9iT1FmUG4="
-const BASE_URL = "https://api.stringee.com/v1/room2"
+const PROJECT_ID = process.env.STRINGEEX_KEY
+const PROJECT_SECRET = process.env.STRINGEEX_SECRET
+const BASE_URL = process.env.STRINGEEX_BASE_URL
 
 class API {
 	constructor() {
