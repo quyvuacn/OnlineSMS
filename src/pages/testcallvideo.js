@@ -133,7 +133,7 @@ function TestCallVideo() {
 	return (
 		<div>
 			<div>
-				<h2>Video call</h2>
+				<h2>Video call {roomId}</h2>
 				<div ref={videoContainerRef} />
 				<br />
 				<button onClick={createRoom}>Tạo phòng mới</button>

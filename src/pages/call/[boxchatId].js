@@ -4,22 +4,15 @@ import { getCookies, setCookie, deleteCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import ChatHubService, { TaskNames } from "@/services/chatHubService"
 import VideoCall from "@/components/Chat/Call/VideoCall"
-import { notify } from "@/redux/reducers/notificationSlice"
-import { useDispatch } from "react-redux"
-import typeNotification from "@/common/typeNotification"
 
 function Call() {
 	const router = useRouter()
 	const type = router.query?.type
 	const boxchatId = router.query?.boxchatId
 
-	const myUserId = getCookies().userId
-
 	const [connectionHub, setConnectionHub] = useState()
 	const [start, setStart] = useState(false)
 	const [roomResponse, setRoomResponse] = useState("")
-
-	const dispatch = useDispatch()
 
 	useEffect(() => {
 		let chatHubService = new ChatHubService()

@@ -1,8 +1,8 @@
 const { default: axios } = require("axios")
 
-const PROJECT_ID = process.env.STRINGEEX_KEY
-const PROJECT_SECRET = process.env.STRINGEEX_SECRET
-const BASE_URL = process.env.STRINGEEX_BASE_URL
+const PROJECT_ID = process.env.NEXT_PUBLIC_STRINGEEX_KEY
+const PROJECT_SECRET = process.env.NEXT_PUBLIC_STRINGEEX_SECRET
+const BASE_URL = process.env.NEXT_PUBLIC_STRINGEEX_BASE_URL
 
 class API {
 	constructor() {
