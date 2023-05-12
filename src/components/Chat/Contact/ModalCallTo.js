@@ -18,27 +18,27 @@ function ModalCallTo({ isShow, hideModalCallTo }) {
 	)
 	const [pickUp, setPickUp] = useState(false)
 
-	useEffect(() => {
-		const boxchatId = calling.boxchatId
+	// useEffect(() => {
+	// 	const boxchatId = calling.boxchatId
 
-		const data = {
-			boxchatId,
-		}
+	// 	const data = {
+	// 		boxchatId,
+	// 	}
 
-		const invokeCancel = () => {
-			connectionHub.invoke(TaskNames.Cancel, data, function (done) {
-				console.log("Canceled")
-				hideModalCallTo()
-			})
-		}
-		setTimeout(invokeCancel, 30 * 1000)
-		if (pickUp) {
-			clearTimeout(invokeCancel)
-		}
-		return () => {
-			clearTimeout(invokeCancel)
-		}
-	}, [pickUp])
+	// 	const invokeCancel = () => {
+	// 		connectionHub.invoke(TaskNames.Cancel, data, function (done) {
+	// 			console.log("Canceled")
+	// 			hideModalCallTo()
+	// 		})
+	// 	}
+	// 	setTimeout(invokeCancel, 30 * 1000)
+	// 	if (pickUp) {
+	// 		clearTimeout(invokeCancel)
+	// 	}
+	// 	return () => {
+	// 		clearTimeout(invokeCancel)
+	// 	}
+	// }, [pickUp])
 
 	let avatar = ""
 	let name = ""
